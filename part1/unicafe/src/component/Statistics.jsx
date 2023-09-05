@@ -1,3 +1,5 @@
+import StatisticLine from "./StatisticLine";
+
 function Statistics({ data, isFeedbackGiven }) {
     const calculateAll = () => {
         return Object.entries(data).reduce((acc, entry) => acc + entry[1], 0)
@@ -26,12 +28,12 @@ function Statistics({ data, isFeedbackGiven }) {
                 <ul>
                     {
                         Object.entries(data).map(([key, value]) => {
-                            return <li key={key}>{key} {value}</li>
+                            return <StatisticLine key={key} content={key} value={value} />
                         })
                     }
-                    <li>all {calculateAll()}</li>
-                    <li>average {calculateAverage().toFixed(2)}</li>
-                    <li>positive {calculatePositive().toFixed(2)}%</li>
+                    <StatisticLine content="all" value={calculateAll()} />
+                    <StatisticLine content="average" value={calculateAverage().toFixed(2)} />
+                    <StatisticLine content="positive" value={`${calculatePositive().toFixed(2)}%`} />
                 </ul>
             }
             { !isFeedbackGiven && <p>No feedback given</p> }

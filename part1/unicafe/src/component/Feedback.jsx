@@ -1,10 +1,12 @@
+import Button from './Button'
+
 function Feedback({ incrementGood, incrementNeutral, incrementBad }) {
     return (
         <section>
             <h1>give feedback</h1>
-            <button onClick={incrementGood}>good</button>
-            <button onClick={incrementNeutral}>neutral</button>
-            <button onClick={incrementBad}>bad</button>
+            <Button onClick={incrementGood} content="good" />
+            <Button onClick={incrementNeutral} content="neutral" />
+            <Button onClick={incrementBad} content="bad" />
         </section>
     )
 }
