@@ -15,10 +15,14 @@ const App = () => {
     incrementBad: () => setFeedback({ ...feedback, bad: feedback.bad + 1 }),
   }
 
+  const isFeedbackGiven = () => {
+    return feedback.good || feedback.neutral || feedback.bad
+  }
+
   return (
     <>
       <Feedback {...increment} />
-      <Statistics data={feedback} />
+      <Statistics data={feedback} isFeedbackGiven={(Boolean)(isFeedbackGiven())} />
     </>
   )
 }
