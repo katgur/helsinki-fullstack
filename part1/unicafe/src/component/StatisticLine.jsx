@@ -1,6 +1,6 @@
 function StatisticLine({ content, value }) {
     return (
-        <li>{content} {value}</li>
+        <tr><td>{content}</td><td>{value}</td></tr>
     )
 }
 

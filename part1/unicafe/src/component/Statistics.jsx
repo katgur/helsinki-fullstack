@@ -25,18 +25,20 @@ function Statistics({ data, isFeedbackGiven }) {
         <section>
             <h1>statistics</h1>
             {isFeedbackGiven &&
-                <ul>
-                    {
-                        Object.entries(data).map(([key, value]) => {
-                            return <StatisticLine key={key} content={key} value={value} />
-                        })
-                    }
-                    <StatisticLine content="all" value={calculateAll()} />
-                    <StatisticLine content="average" value={calculateAverage().toFixed(2)} />
-                    <StatisticLine content="positive" value={`${calculatePositive().toFixed(2)}%`} />
-                </ul>
+                <table>
+                    <tbody>
+                        {
+                            Object.entries(data).map(([key, value]) => {
+                                return <StatisticLine key={key} content={key} value={value} />
+                            })
+                        }
+                        <StatisticLine content="all" value={calculateAll()} />
+                        <StatisticLine content="average" value={calculateAverage().toFixed(2)} />
+                        <StatisticLine content="positive" value={`${calculatePositive().toFixed(2)}%`} />
+                    </tbody>
+                </table>
             }
-            { !isFeedbackGiven && <p>No feedback given</p> }
+            {!isFeedbackGiven && <p>No feedback given</p>}
         </section>
     )
 }
