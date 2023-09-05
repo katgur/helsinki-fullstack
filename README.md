@@ -1,2 +1,2 @@
 ## Fullstack Open course
-Please check branch part0
+Please check out the 'part0' branch
