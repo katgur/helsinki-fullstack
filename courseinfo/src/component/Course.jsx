@@ -1,5 +1,28 @@
-import Content from './Content'
-import Total from './Total'
+function Part({ part }) {
+    return (
+        <p>
+            {part.name} {part.exercises}
+        </p>
+    )
+}
+
+function Content({ parts }) {
+    return (
+        <>
+            {
+                parts.map(part => {
+                    return <Part key={part.name} part={part} />
+                })
+            }
+        </>
+    )
+}
+
+function Total({ parts }) {
+    const total = parts.reduce((acc, value) => acc + value.exercises, 0)
+
+    return <p style={{ fontWeight: 'bold' }}>Total of {total} exercises</p>
+}
 
 function Course({ course }) {
     return (
@@ -10,5 +33,6 @@ function Course({ course }) {
         </>
     )
 }
+
 
 export default Course
