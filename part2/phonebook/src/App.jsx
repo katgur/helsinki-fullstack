@@ -2,38 +2,47 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ])
-  const [newName, setNewName] = useState('')
+  const [newPerson, setNewPerson] = useState({ name: '', number: '' })
 
   function areObjectsEqual(first, second) {
     return JSON.stringify(first) === JSON.stringify(second)
   }
 
-  const onAddNewNameClick = (event) => {
+  const onAddNewPersonClick = (event) => {
     event.preventDefault()
-    const newPerson = { name: newName }
     const hasSame = persons.reduce((acc, value) => acc = (acc || areObjectsEqual(value, newPerson)), false)
     if (hasSame) {
-      alert(`'${newName}' is already added to phonebook`)
+      alert(`Person with name '${newPerson.name}' and number '${newPerson.number}' is already added to phonebook`)
     } else {
       setPersons([...persons, newPerson])
-      setNewName('')
+      setNewPerson({ name: '', number: '' })
     }
   }
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value)
+    setNewPerson({ ...newPerson, name: event.target.value })
+  }
+
+  const handleNumberChange = (event) => {
+    setNewPerson({ ...newPerson, number: event.target.value })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={onAddNewNameClick}>
+      <form onSubmit={onAddNewPersonClick}>
         <div>
           name: <input
-            value={newName}
+            value={newPerson.name}
             onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          number: <input
+            value={newPerson.number}
+            onChange={handleNumberChange}
           />
         </div>
         <div>
@@ -44,7 +53,7 @@ const App = () => {
       <ul>
         {
           persons.map(person => {
-            return <li key={person.name}>{person.name}</li>
+            return <li key={person.name}>{person.name} {person.number}</li>
           })
         }
       </ul>
