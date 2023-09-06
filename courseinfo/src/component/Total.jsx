@@ -1,7 +1,7 @@
 function Total({ parts }) {
-    return <p>Number of exercises {
+    return <p style={{ fontWeight: 'bold' }}>Total of {
         parts.reduce((acc, value) => acc + value.exercises, 0)
-    }</p>
+    } exercises</p>
 }
 
 export default Total;
