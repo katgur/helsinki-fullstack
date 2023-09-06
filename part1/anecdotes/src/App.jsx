@@ -13,7 +13,8 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
+  
   function nextInt(max) {
     return Math.floor((Math.random() * max))
   }
@@ -26,10 +27,18 @@ const App = () => {
     setSelected(index)
   }
 
+  const onVoteButtonClick = () => {
+    const newVotes = [...votes]
+    newVotes[selected] += 1
+    setVotes(newVotes)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
-      <button style={{ display: 'block' }} onClick={onNextButtonClick}>next</button>
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
+      <button onClick={onVoteButtonClick}>vote</button>
+      <button onClick={onNextButtonClick}>next</button>
     </div>
   )
 }
