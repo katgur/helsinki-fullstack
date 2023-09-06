@@ -6,11 +6,20 @@ const App = () => {
   ])
   const [newName, setNewName] = useState('')
 
+  function areObjectsEqual(first, second) {
+    return JSON.stringify(first) === JSON.stringify(second)
+  }
+
   const onAddNewNameClick = (event) => {
     event.preventDefault()
-    console.log(newName)
-    setPersons([...persons, { name: newName }])
-    setNewName('')
+    const newPerson = { name: newName }
+    const hasSame = persons.reduce((acc, value) => acc = (acc || areObjectsEqual(value, newPerson)), false)
+    if (hasSame) {
+      alert(`'${newName}' is already added to phonebook`)
+    } else {
+      setPersons([...persons, newPerson])
+      setNewName('')
+    }
   }
 
   const handleNameChange = (event) => {
