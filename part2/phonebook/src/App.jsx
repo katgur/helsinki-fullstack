@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react'
 import Filter from './component/Filter'
 import PersonForm from './component/PersonForm'
 import Persons from './component/Persons'
-import axios from 'axios'
+import personsService from './service/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personsService.getAll()
+      .then(data => {
+        setPersons(data)
       })
   }, [])
 
@@ -21,11 +20,11 @@ const App = () => {
     if (hasSame) {
       alert(`Person with name '${data.name}' or number '${data.number}' is already added to phonebook`)
     } else {
-      axios.post('http://localhost:3001/persons', data)
-      .then(response => {
-        setPersons([...persons, response.data])
-        reset()
-      })
+      personsService.create(data)
+        .then(data => {
+          setPersons([...persons, data])
+          reset()
+        })
     }
   }
 
