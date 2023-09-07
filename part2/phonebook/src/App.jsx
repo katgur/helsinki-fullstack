@@ -16,9 +16,15 @@ const App = () => {
   }, [])
 
   const onAddNewPersonClick = (data, reset) => {
-    const hasSame = persons.reduce((acc, value) => acc = (acc || value.name === data.name || data.number === value.number), false)
-    if (hasSame) {
-      alert(`Person with name '${data.name}' or number '${data.number}' is already added to phonebook`)
+    const sameIndex = persons.findIndex(person => person.name === data.name)
+    if (sameIndex !== -1) {
+      if (window.confirm(`Person with name '${data.name}' is already added to phonebook, replace the old number with the new one ?`)) {
+        personsService.update(persons[sameIndex].id, data)
+        .then(data => {
+          const newPersons = persons.filter(person => person.id !== data.id)
+          setPersons([...newPersons, data])
+        })
+      }
     } else {
       personsService.create(data)
         .then(data => {
