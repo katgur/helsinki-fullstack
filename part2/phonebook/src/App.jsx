@@ -28,6 +28,16 @@ const App = () => {
     }
   }
 
+  const onDeleteButtonClick = (data) => {
+    if (window.confirm(`Delete ${data.name} ?`)) {
+      personsService.remove(data.id)
+        .then(_ => {
+          const newPersons = persons.filter(person => person.id !== data.id)
+          setPersons(newPersons)
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -35,7 +45,7 @@ const App = () => {
       <h3>Add a new person</h3>
       <PersonForm onSubmit={onAddNewPersonClick} />
       <h3>Numbers</h3>
-      <Persons persons={persons} search={search} />
+      <Persons persons={persons} search={search} onDeleteButtonClick={onDeleteButtonClick} />
     </div>
   )
 }
