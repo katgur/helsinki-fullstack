@@ -21,8 +21,11 @@ const App = () => {
     if (hasSame) {
       alert(`Person with name '${data.name}' or number '${data.number}' is already added to phonebook`)
     } else {
-      setPersons([...persons, data])
-      reset()
+      axios.post('http://localhost:3001/persons', data)
+      .then(response => {
+        setPersons([...persons, response.data])
+        reset()
+      })
     }
   }
 
