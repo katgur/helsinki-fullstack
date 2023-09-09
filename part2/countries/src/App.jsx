@@ -13,13 +13,17 @@ const App = () => {
       })
   }, [])
 
+  const filtered = countries.filter(country => {
+    return country.toLowerCase().includes(search)
+  })
+
   return (
     <div>
       <div>
         <label>find countries</label>
         <input value={search} onChange={(event) => setSearch(event.target.value.toLowerCase())} />
       </div>
-      <Countries countries={countries} search={search} />
+      <Countries countryNames={filtered} />
     </div>
   )
 }
