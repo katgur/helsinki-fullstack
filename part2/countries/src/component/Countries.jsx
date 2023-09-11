@@ -12,7 +12,6 @@ function Country({ countryName }) {
     }
 
     useEffect(() => {
-
         if (!country) {
             if (!countryName) {
                 return
@@ -79,6 +78,10 @@ function Country({ countryName }) {
 
 function Countries({ countryNames }) {
     const [selected, setSelected] = useState(-1)
+
+    useEffect(() => {
+        setSelected(-1)
+    }, [countryNames])
 
     const onShowButtonClick = (index) => {
         setSelected(index)
