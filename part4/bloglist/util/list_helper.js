@@ -10,7 +10,7 @@ const totalLikes = (blogs) => {
 
 const favoriteBlog = (blogs) => {
     if (blogs.length === 0) {
-        return undefined
+        return null
     }
     let max = blogs[0]
     blogs.forEach(blog => {
@@ -23,7 +23,7 @@ const favoriteBlog = (blogs) => {
 
 const mostBlogs = (blogs) => {
     if (blogs.length === 0) {
-        return undefined
+        return null
     }
     const groupedByAuthor = lodash.groupBy(blogs, 'author')
     const mappedAuthorToBlogs = lodash.map(groupedByAuthor, authorToBlog)

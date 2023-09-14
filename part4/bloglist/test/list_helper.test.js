@@ -142,7 +142,7 @@ describe('favorite blog', () => {
 
     test('empty list', () => {
         const result = listHelper.favoriteBlog(emptyList)
-        expect(result).toBe(undefined)
+        expect(result).toBe(null)
     })
 
     const oneMaxList = [
@@ -325,7 +325,7 @@ describe('most blogs', () => {
     const emptyList = []
 
     test('empty list', () => {
-        expect(listHelper.mostBlogs(emptyList)).toBe(undefined)
+        expect(listHelper.mostBlogs(emptyList)).toBe(null)
     })
 
     const oneMostBlogs = [
