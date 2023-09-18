@@ -52,6 +52,24 @@ test('blog is added', async () => {
     expect(response.body).toHaveLength(3)
 }, TIMEOUT)
 
+test('no likes property equals to 0', async () => {
+    const noLikesBlog = {
+        title: initialBlogs[3].title,
+        author: initialBlogs[3].author,
+        url: initialBlogs[3].url,
+    }
+
+    const result = await api
+        .post('/api/blogs')
+        .send(noLikesBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    expect(result._body.title).toBe(noLikesBlog.title)
+    expect(result._body.author).toBe(noLikesBlog.author)
+    expect(result._body.url).toBe(noLikesBlog.url)
+    expect(result._body.likes).toBe(0)
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })

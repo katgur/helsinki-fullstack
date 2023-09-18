@@ -5,6 +5,7 @@ const blogRouter = require('./controller/blogs')
 const middleware = require('./util/middleware')
 const logger = require('./util/logger')
 const mongoose = require('mongoose')
+require('express-async-errors')
 
 const app = express()
 
