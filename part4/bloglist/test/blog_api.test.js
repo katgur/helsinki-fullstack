@@ -107,6 +107,42 @@ test('delete works', async () => {
     expect(response.body).toHaveLength(1)
 }, TIMEOUT)
 
+test('put works', async () => {
+    const updatedBlog =
+    {
+        author: initialBlogs[2].author,
+        url: initialBlogs[2].url,
+        title: initialBlogs[2].title,
+        likes: initialBlogs[2].likes,
+    }
+
+    await api
+        .put(`/api/blogs/${initialBlogs[1]._id}`)
+        .send(updatedBlog)
+
+    const response = await api.get('/api/blogs')
+    const filteredBlog = response.body.filter(i => i.id == initialBlogs[1]._id)[0]
+    expect(filteredBlog.author).toBe(updatedBlog.author)
+    expect(filteredBlog.url).toBe(updatedBlog.url)
+    expect(filteredBlog.title).toBe(updatedBlog.title)
+    expect(filteredBlog.likes).toBe(updatedBlog.likes)
+}, TIMEOUT)
+
+test('put return 404 on non-exiting id', async () => {
+    const updatedBlog =
+    {
+        author: initialBlogs[2].author,
+        url: initialBlogs[2].url,
+        title: initialBlogs[2].title,
+        likes: initialBlogs[2].likes,
+    }
+
+    await api
+        .put(`/api/blogs/${initialBlogs[2]._id}`)
+        .send(updatedBlog)
+        .expect(404)
+}, TIMEOUT)
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
