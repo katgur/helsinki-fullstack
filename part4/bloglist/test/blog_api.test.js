@@ -97,6 +97,16 @@ test('verifies no url', async () => {
         .expect('Content-Type', /application\/json/)
 }, TIMEOUT)
 
+test('delete works', async () => {
+    const deletedBlog = initialBlogs[1]
+
+    await api
+        .delete(`/api/blogs/${deletedBlog._id}`)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(1)
+}, TIMEOUT)
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
