@@ -14,8 +14,7 @@ beforeEach(async () => {
     await blogObject.save()
     blogObject = new Blog(initialBlogs[1])
     await blogObject.save()
-})
-
+}, TIMEOUT)
 
 test('blogs are returned as json', async () => {
     await api
@@ -68,7 +67,35 @@ test('no likes property equals to 0', async () => {
     expect(result._body.author).toBe(noLikesBlog.author)
     expect(result._body.url).toBe(noLikesBlog.url)
     expect(result._body.likes).toBe(0)
-})
+}, TIMEOUT)
+
+test('verifies no title', async () => {
+    const noTitleBlog = {
+        author: initialBlogs[4].author,
+        url: initialBlogs[4].url,
+        likes: initialBlogs[4].likes,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(noTitleBlog)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+}, TIMEOUT)
+
+test('verifies no url', async () => {
+    const noUrlBlog = {
+        url: initialBlogs[4].url,
+        author: initialBlogs[4].author,
+        likes: initialBlogs[4].likes,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(noUrlBlog)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+}, TIMEOUT)
 
 afterAll(async () => {
     await mongoose.connection.close()
