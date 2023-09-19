@@ -5,7 +5,7 @@ const app = require('../app')
 const supertest = require('supertest')
 
 const api = supertest(app)
-const TIMEOUT = 100 * 1000;
+const TIMEOUT = 100 * 1000
 
 beforeEach(async () => {
     await User.deleteMany({ username: 'admin' })

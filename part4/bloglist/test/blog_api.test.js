@@ -5,8 +5,8 @@ const Blog = require('../model/blog')
 const mock = require('./mock/blogs')
 
 const api = supertest(app)
-const initialBlogs = mock.blogs;
-const TIMEOUT = 100 * 1000;
+const initialBlogs = mock.blogs
+const TIMEOUT = 100 * 1000
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -122,7 +122,7 @@ describe('adding blog', () => {
     test('cannot add blog with no token provided', async () => {
         const newBlog = initialBlogs[2]
 
-        const result = await api
+        await api
             .post('/api/blogs')
             .send(newBlog)
             .expect(401)

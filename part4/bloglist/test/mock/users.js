@@ -1,8 +1,8 @@
 const users = [
     {
-        username: "admin",
-        name: "Administrator",
-        password: "admin"
+        username: 'admin',
+        name: 'Administrator',
+        password: 'admin'
     }
 ]
 
@@ -17,15 +17,15 @@ const noPasswordUser = {
 }
 
 const shortUsernameUser = {
-    username: "sh",
-    name: "Short Username",
-    password: "shortusername"
+    username: 'sh',
+    name: 'Short Username',
+    password: 'shortusername'
 }
 
 const shortPasswordUser = {
-    username: "shortpassword",
-    name: "Short Password",
-    password: "sh"
+    username: 'shortpassword',
+    name: 'Short Password',
+    password: 'sh'
 }
 
 module.exports = { users, noUsernameUser, noPasswordUser, shortUsernameUser, shortPasswordUser }
