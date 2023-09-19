@@ -1,0 +1,91 @@
+const User = require('../model/user')
+const mock = require('./mock/users')
+const mongoose = require('mongoose')
+const app = require('../app')
+const supertest = require('supertest')
+
+const api = supertest(app)
+const TIMEOUT = 100 * 1000;
+
+beforeEach(async () => {
+    await User.deleteMany({})
+}, TIMEOUT)
+
+describe('invalid user is not added', () => {
+    test('username is required', async () => {
+        const noUsernameUser = mock.noUsernameUser
+
+        await api
+            .post('/api/users')
+            .send(noUsernameUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/users')
+        expect(response.body).toHaveLength(0)
+    })
+
+    test('password is required', async () => {
+        const noPasswordUser = mock.noPasswordUser
+
+        await api
+            .post('/api/users')
+            .send(noPasswordUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/users')
+        expect(response.body).toHaveLength(0)
+    })
+
+    test('username is at least 3 characters long', async () => {
+        const shortUsernameUser = mock.shortUsernameUser
+
+        await api
+            .post('/api/users')
+            .send(shortUsernameUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/users')
+        expect(response.body).toHaveLength(0)
+    })
+
+    test('password is at least 3 characters long', async () => {
+        const shortPasswordUser = mock.shortPasswordUser
+
+        await api
+            .post('/api/users')
+            .send(shortPasswordUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/users')
+        expect(response.body).toHaveLength(0)
+    })
+
+    test('username must be unique', async () => {
+        const user = mock.users[0]
+
+        await api
+            .post('/api/users')
+            .send(user)
+            .expect(201)
+
+        const response1 = await api.get('/api/users')
+        expect(response1.body).toHaveLength(1)
+
+        await api
+            .post('/api/users')
+            .send(user)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+        const response2 = await api.get('/api/users')
+        expect(response2.body).toHaveLength(1)
+    })
+})
+
+afterAll(async () => {
+    await mongoose.connection.close()
+})
