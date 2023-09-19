@@ -1,10 +1,5 @@
 const users = [
     {
-        username: "root",
-        name: "Superuser",
-        password: "salainen"
-    },
-    {
         username: "admin",
         name: "Administrator",
         password: "admin"

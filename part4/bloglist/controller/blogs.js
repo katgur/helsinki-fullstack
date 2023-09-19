@@ -1,6 +1,5 @@
 const blogRouter = require('express').Router()
 const Blog = require('../model/blog')
-const User = require('../model/user')
 const jwt = require('jsonwebtoken')
 
 blogRouter.get('/', async (request, response) => {
@@ -16,7 +15,7 @@ blogRouter.post('/', async (request, response) => {
 
     const user = request.user
     if (!user) {
-        return response.status(404).json({ error: 'user id not found' })
+        return response.status(404).json({ error: 'user not found' })
     }
 
     const { title, author, url, likes } = request.body
@@ -41,7 +40,7 @@ blogRouter.delete('/:id', async (request, response) => {
     
     const user = request.user
     if (!user) {
-        return response.status(404).json({ error: 'user id not found' })
+        return response.status(404).json({ error: 'user not found' })
     }
 
     const blog = await Blog.findById(request.params.id)

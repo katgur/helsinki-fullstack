@@ -8,7 +8,7 @@ const api = supertest(app)
 const TIMEOUT = 100 * 1000;
 
 beforeEach(async () => {
-    await User.deleteMany({})
+    await User.deleteMany({ username: 'admin' })
 }, TIMEOUT)
 
 describe('invalid user is not added', () => {
@@ -22,8 +22,8 @@ describe('invalid user is not added', () => {
             .expect('Content-Type', /application\/json/)
 
         const response = await api.get('/api/users')
-        expect(response.body).toHaveLength(0)
-    })
+        expect(response.body).toHaveLength(1)
+    }, TIMEOUT)
 
     test('password is required', async () => {
         const noPasswordUser = mock.noPasswordUser
@@ -35,8 +35,8 @@ describe('invalid user is not added', () => {
             .expect('Content-Type', /application\/json/)
 
         const response = await api.get('/api/users')
-        expect(response.body).toHaveLength(0)
-    })
+        expect(response.body).toHaveLength(1)
+    }, TIMEOUT)
 
     test('username is at least 3 characters long', async () => {
         const shortUsernameUser = mock.shortUsernameUser
@@ -48,8 +48,8 @@ describe('invalid user is not added', () => {
             .expect('Content-Type', /application\/json/)
 
         const response = await api.get('/api/users')
-        expect(response.body).toHaveLength(0)
-    })
+        expect(response.body).toHaveLength(1)
+    }, TIMEOUT)
 
     test('password is at least 3 characters long', async () => {
         const shortPasswordUser = mock.shortPasswordUser
@@ -61,8 +61,8 @@ describe('invalid user is not added', () => {
             .expect('Content-Type', /application\/json/)
 
         const response = await api.get('/api/users')
-        expect(response.body).toHaveLength(0)
-    })
+        expect(response.body).toHaveLength(1)
+    }, TIMEOUT)
 
     test('username must be unique', async () => {
         const user = mock.users[0]
@@ -73,7 +73,7 @@ describe('invalid user is not added', () => {
             .expect(201)
 
         const response1 = await api.get('/api/users')
-        expect(response1.body).toHaveLength(1)
+        expect(response1.body).toHaveLength(2)
 
         await api
             .post('/api/users')
@@ -82,8 +82,8 @@ describe('invalid user is not added', () => {
             .expect('Content-Type', /application\/json/)
 
         const response2 = await api.get('/api/users')
-        expect(response2.body).toHaveLength(1)
-    })
+        expect(response2.body).toHaveLength(2)
+    }, TIMEOUT)
 })
 
 afterAll(async () => {
