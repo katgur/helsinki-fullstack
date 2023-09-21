@@ -3,8 +3,9 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import authService from './services/auth'
 import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 
-export const USER_KEY = 'loggedBlogappUser'
+const USER_KEY = 'loggedBlogappUser'
 
 const App = () => {
   const [blogs, setBlogs] = useState(null)
@@ -41,12 +42,28 @@ const App = () => {
     setBlogs(null)
   }
 
+  const handleBlogCreate = (blog) => {
+    blogService.add(blog)
+      .then(data => {
+        setBlogs([...blogs, data])
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+  }
+
   return (
     <div>
       <h2>{user ? "blogs" : "login"}</h2>
-      {user && 
+      {user &&
         <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>}
       {!user && <LoginForm handleLogin={handleLogin} />}
+      {
+        user && <>
+        <h2>create new blog</h2>
+          <BlogForm handleBlogCreate={handleBlogCreate} />
+        </>
+      }
       {blogs && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

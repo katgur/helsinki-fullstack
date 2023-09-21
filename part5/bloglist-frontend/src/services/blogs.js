@@ -1,6 +1,5 @@
 import axios from 'axios'
 const baseUrl = `http://localhost:3003/api/blogs`
-import { USER_KEY } from '../App'
 
 let token = null
 
@@ -16,4 +15,12 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-export default { getAll, setToken }
+const add = (data) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const request = axios.post(baseUrl, data, config)
+  return request.then(response => response.data)
+}
+
+export default { getAll, add, setToken }
