@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import authService from './services/auth'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const USER_KEY = 'loggedBlogappUser'
 const MESSAGE_TYPE_SUCCESS = 'success'
@@ -13,6 +14,7 @@ const App = () => {
   const [blogs, setBlogs] = useState(null)
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
+  const blogFormRef = useRef()
 
   useEffect(() => {
     if (user) {
@@ -49,6 +51,7 @@ const App = () => {
   }
 
   const handleBlogCreate = (blog) => {
+    blogFormRef.current.toggleVisibility()
     blogService.add(blog)
       .then(data => {
         setBlogs([...blogs, data])
@@ -69,15 +72,16 @@ const App = () => {
 
   return (
     <div>
-      <h2>{user ? "blogs" : "login"}</h2>
+      {user && <h2>blogs</h2>}
       {message && <p style={{ color: message.type === MESSAGE_TYPE_ERROR ? 'red' : 'green' }}>{message.content}</p>}
-      {user &&
-        <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>}
       {!user && <LoginForm handleLogin={handleLogin} />}
       {
-        user && <>
-          <h2>create new blog</h2>
-          <BlogForm handleBlogCreate={handleBlogCreate} />
+        user &&
+        <>
+          <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+          <Togglable buttonLabel="create" ref={blogFormRef}>
+            <BlogForm handleBlogCreate={handleBlogCreate} />
+          </Togglable>
         </>
       }
       {blogs && blogs.map(blog =>
