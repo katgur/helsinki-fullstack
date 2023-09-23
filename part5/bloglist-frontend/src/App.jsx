@@ -92,6 +92,11 @@ const App = () => {
       })
   }
 
+  const handleSortClick = () => {
+    const sortedBlogs = [...blogs].sort((blog1, blog2) => blog2.likes - blog1.likes)
+      setBlogs(sortedBlogs)
+  }
+
   return (
     <div>
       {user && <h2>blogs</h2>}
@@ -106,9 +111,13 @@ const App = () => {
           </Togglable>
         </>
       }
-      {blogs && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} onLikeClick={handleLikeClick} />
-      )}
+      {blogs &&
+        <>
+          <button onClick={handleSortClick}>sort</button>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} onLikeClick={handleLikeClick} />
+          )}
+        </>}
     </div>
   )
 }
