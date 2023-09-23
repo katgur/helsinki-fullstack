@@ -38,7 +38,6 @@ const App = () => {
         showMessage(MESSAGE_TYPE_SUCCESS, 'you have successfully logged in')
       })
       .catch(error => {
-        console.log(error.message)
         const message = 'error while logging in' + (error.response ? `: ${error.response.data.error}` : '')
         showMessage(MESSAGE_TYPE_ERROR, message)
       })
@@ -73,6 +72,26 @@ const App = () => {
     }, 5000)
   }
 
+  const handleLikeClick = (blog) => {
+    const updatedBlog = { ...blog, likes: blog.likes + 1, user: blog.user.id }
+    delete updatedBlog.id
+    blogService.update(blog.id, updatedBlog)
+      .then(data => {
+        const newBlogs = blogs.map(blog => {
+          if (blog.id === data.id) {
+            blog.likes = data.likes
+          }
+          return blog
+        })
+        setBlogs(newBlogs)
+        showMessage(MESSAGE_TYPE_SUCCESS, `blog "${data.title}" liked`)
+      })
+      .catch(error => {
+        const message = 'error while liking blog' + (error.response ? `: ${error.response.data.error}` : '')
+        showMessage(MESSAGE_TYPE_ERROR, message)
+      })
+  }
+
   return (
     <div>
       {user && <h2>blogs</h2>}
@@ -88,7 +107,7 @@ const App = () => {
         </>
       }
       {blogs && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} onLikeClick={handleLikeClick} />
       )}
     </div>
   )
