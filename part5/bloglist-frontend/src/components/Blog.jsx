@@ -17,7 +17,7 @@ const Blog = ({ blog }) => {
       {isShown &&
         <div>
           <p><a href={blog.url}>{blog.url}</a></p>
-          <p>likes {blog.likes}</p>
+          <p>likes {blog.likes} <button>like</button></p>
           <p>{blog.user.name}</p>
         </div>}
     </div>

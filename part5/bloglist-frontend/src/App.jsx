@@ -54,8 +54,11 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     blogService.add(blog)
       .then(data => {
-        setBlogs([...blogs, data])
-        showMessage(MESSAGE_TYPE_SUCCESS, 'blog added')
+        showMessage(MESSAGE_TYPE_SUCCESS, `blog "${data.title}" added`)
+        blogService.getAll()
+          .then(data => {
+            setBlogs(data)
+          })
       })
       .catch(error => {
         const message = 'error while adding blog' + (error.response ? `: ${error.response.data.error}` : '')
