@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, onLikeClick }) => {
+const Blog = ({ blog, onLikeClick, onRemoveClick }) => {
   const [isShown, setIsShown] = useState(false)
   const blogStyle = {
     paddingTop: 10,
@@ -19,6 +19,7 @@ const Blog = ({ blog, onLikeClick }) => {
           <p><a href={blog.url}>{blog.url}</a></p>
           <p>likes {blog.likes} <button onClick={() => onLikeClick(blog)}>like</button></p>
           <p>{blog.user.name}</p>
+          {blog.isOwn && <button onClick={() => onRemoveClick(blog)}>remove</button>}
         </div>}
     </div>
   )

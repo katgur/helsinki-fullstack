@@ -94,7 +94,22 @@ const App = () => {
 
   const handleSortClick = () => {
     const sortedBlogs = [...blogs].sort((blog1, blog2) => blog2.likes - blog1.likes)
-      setBlogs(sortedBlogs)
+    setBlogs(sortedBlogs)
+  }
+
+  const handleRemoveClick = (blog) => {
+    if (window.confirm(`are you sure to remove blog "${blog.title}"?`)) {
+      blogService.remove(blog.id)
+        .then(() => {
+          showMessage(MESSAGE_TYPE_SUCCESS, `blog "${blog.title}" deleted`)
+          const filteredBlogs = blogs.filter(blog1 => blog1.id !== blog.id)
+          setBlogs(filteredBlogs)
+        })
+        .catch(error => {
+          const message = 'error while deleting blog' + (error.response ? `: ${error.response.data.error}` : '')
+          showMessage(MESSAGE_TYPE_ERROR, message)
+        })
+    }
   }
 
   return (
@@ -114,8 +129,10 @@ const App = () => {
       {blogs &&
         <>
           <button onClick={handleSortClick}>sort</button>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} onLikeClick={handleLikeClick} />
+          {blogs.map(blog => {
+            blog.isOwn = blog.user.username === user.username
+            return <Blog key={blog.id} blog={blog} onLikeClick={handleLikeClick} onRemoveClick={handleRemoveClick} />
+          }
           )}
         </>}
     </div>
