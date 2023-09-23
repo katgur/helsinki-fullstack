@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, onLikeClick, onRemoveClick }) => {
   const [isShown, setIsShown] = useState(false)
