@@ -22,8 +22,9 @@ function BlogForm({ handleBlogCreate }) {
       <h2>create new blog</h2>
       <form onSubmit={onSubmit}>
         <div>
-                    title:
+          title:
           <input
+            id='title'
             type="text"
             value={blog.title}
             name="title"
@@ -31,8 +32,9 @@ function BlogForm({ handleBlogCreate }) {
           />
         </div>
         <div>
-                    author:
+          author:
           <input
+            id='author'
             type="text"
             value={blog.author}
             name="author"
@@ -40,8 +42,9 @@ function BlogForm({ handleBlogCreate }) {
           />
         </div>
         <div>
-                    url:
+          url:
           <input
+            id='url'
             type="text"
             value={blog.url}
             name="url"
