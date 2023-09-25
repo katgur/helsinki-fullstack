@@ -51,5 +51,21 @@ describe('Blog app', function () {
 
       cy.contains(`${mock.blog.title} ${mock.blog.author}`)
     })
+
+    it('A blog can be liked', function () {
+      cy.contains('create').click()
+      cy.get('#title').type(mock.blog.title)
+      cy.get('#author').type(mock.blog.author)
+      cy.get('#url').type(mock.blog.url)
+      cy.contains('save').click()
+      cy.contains('show').click()
+      cy.contains('like').click()
+
+      cy.contains('likes 1')
+    })
+
+    afterEach(function () {
+      cy.contains('logout').click()
+    })
   })
 })
