@@ -64,6 +64,19 @@ describe('Blog app', function () {
       cy.contains('likes 1')
     })
 
+    it('The user who created a blog can delete it', function () {
+      cy.contains('create').click()
+      cy.get('#title').type(mock.blog.title)
+      cy.get('#author').type(mock.blog.author)
+      cy.get('#url').type(mock.blog.url)
+      cy.contains('save').click()
+      cy.contains(`${mock.blog.title} ${mock.blog.author}`)
+      cy.contains('show').click()
+      cy.contains(`${mock.user.name}`)
+      cy.contains('remove').click()
+      cy.contains(`${mock.blog.title} ${mock.blog.author}`).should('not.exist')
+    })
+
     afterEach(function () {
       cy.contains('logout').click()
     })
