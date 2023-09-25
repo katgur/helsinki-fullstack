@@ -16,7 +16,7 @@ function LoginForm({ handleLogin }) {
         <div>
                     username
           <input
-          id="username"
+            id="username"
             type="text"
             value={username}
             name="Username"
@@ -26,7 +26,7 @@ function LoginForm({ handleLogin }) {
         <div>
                     password
           <input
-          id="password"
+            id="password"
             type="password"
             value={password}
             name="Password"
