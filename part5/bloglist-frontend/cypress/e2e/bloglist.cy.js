@@ -1,4 +1,7 @@
-import mock from '../../test/mock/users'
+import userMock from '../../test/mock/users'
+import blogMock from '../../test/mock/blogs'
+
+const mock = { ...userMock, ...blogMock }
 
 describe('Blog app', function () {
   beforeEach(function () {
@@ -29,6 +32,24 @@ describe('Blog app', function () {
 
       const message = cy.contains('error while logging in: username not found')
       message.should('have.css', 'color', 'rgb(255, 0, 0)')
+    })
+  })
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.get('#username').type(mock.user.username)
+      cy.get('#password').type(mock.user.password)
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function () {
+      cy.contains('create').click()
+      cy.get('#title').type(mock.blog.title)
+      cy.get('#author').type(mock.blog.author)
+      cy.get('#url').type(mock.blog.url)
+      cy.contains('save').click()
+
+      cy.contains(`${mock.blog.title} ${mock.blog.author}`)
     })
   })
 })

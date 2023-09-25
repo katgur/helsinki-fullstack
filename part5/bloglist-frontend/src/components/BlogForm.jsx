@@ -51,7 +51,7 @@ function BlogForm({ handleBlogCreate }) {
             onChange={({ target }) => setBlog({ ...blog, url: target.value })}
           />
         </div>
-        <button type="submit">create</button>
+        <button type="submit">save</button>
       </form>
     </>
   )
