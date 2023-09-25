@@ -4,4 +4,10 @@ const user = {
     password: '12345'
 }
 
-export default { user }
+const userWithWrongCredentials = {
+    name: 'Kate',
+    username: 'wrong',
+    password: 'credentials'
+}
+
+export default { user, userWithWrongCredentials }
