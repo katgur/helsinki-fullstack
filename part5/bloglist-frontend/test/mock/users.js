@@ -17,4 +17,4 @@ const userWithWrongCredentials = {
     password: 'credentials'
 }
 
-export default { users, userWithWrongCredentials }
+export default { users, userWithWrongCredentials, user: users[0] }

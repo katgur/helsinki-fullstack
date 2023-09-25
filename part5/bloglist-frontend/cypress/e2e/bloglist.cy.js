@@ -1,7 +1,7 @@
 import userMock from '../../test/mock/users'
 import blogMock from '../../test/mock/blogs'
 
-const mock = { ...userMock, ...blogMock, user: userMock.users[0] }
+const mock = { ...userMock, ...blogMock }
 
 describe('Blog app', function () {
   beforeEach(function () {
@@ -95,6 +95,26 @@ describe('Blog app', function () {
       cy.contains('show').click()
       cy.contains(`${mock.user.name}`).should('exist')
       cy.contains('remove').should('not.exist')
+    })
+
+    it('The blogs are ordered according to likes', function () {
+      cy.contains('create').click()
+      cy.get('#title').type(mock.blogs[0].title)
+      cy.get('#author').type(mock.blogs[0].author)
+      cy.get('#url').type(mock.blogs[0].url)
+      cy.contains('save').click()
+
+      cy.contains('create').click()
+      cy.get('#title').type(mock.blogs[1].title)
+      cy.get('#author').type(mock.blogs[1].author)
+      cy.get('#url').type(mock.blogs[1].url)
+      cy.contains('save').click()
+
+      cy.contains(mock.blogs[0].title).contains('show').click()
+      cy.contains('like').click()
+
+      cy.get('.blog').eq(0).should('contain', mock.blogs[0].title)
+      cy.get('.blog').eq(1).should('contain', mock.blogs[1].title)
     })
 
     afterEach(function () {

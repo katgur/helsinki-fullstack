@@ -9,7 +9,7 @@ const Blog = ({ blog, onLikeClick, onRemoveClick }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div class='blog' style={blogStyle}>
       <p>
         {blog.title} {blog.author}
         <button onClick={() => setIsShown(!isShown)}>{isShown ? 'hide' : 'show'}</button>
