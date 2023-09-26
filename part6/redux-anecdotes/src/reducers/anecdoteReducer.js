@@ -24,12 +24,14 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
   switch (action.type) {
     case 'VOTE':
-      return state.map(s => {
+      const newState = state.map(s => {
         if (s.id === action.payload.id) {
           s.votes += 1
         }
         return s
       })
+      newState.sort((s1, s2) => s2.votes - s1.votes)
+      return newState
     case 'CREATE':
       return [...state, asObject(action.payload.anecdote)]
     default: return state
