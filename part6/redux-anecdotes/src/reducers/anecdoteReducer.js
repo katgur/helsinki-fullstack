@@ -39,7 +39,6 @@ const reducer = (state = initialState, action) => {
 }
 
 export function create(anecdote) {
-  console.log('create', anecdote)
   return {
     type: 'CREATE',
     payload: { anecdote }
@@ -47,8 +46,9 @@ export function create(anecdote) {
 }
 
 export function vote(id) {
-  console.log('vote', id)
   return { type: 'VOTE', payload: { id } }
 }
+
+export const getAnecdotes = (state) => state.anecdotes.filter(anecdote => anecdote.content.includes(state.filter))
 
 export default reducer
