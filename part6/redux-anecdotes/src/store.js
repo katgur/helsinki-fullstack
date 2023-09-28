@@ -3,6 +3,7 @@ import anecdoteReducer from './reducers/anecdoteReducer'
 import filterReducer from './reducers/filterReducer'
 import notificationReducer from './reducers/notificationReducer'
 import logger from 'redux-logger'
+import thunk from 'redux-thunk'
 
 const store = configureStore({
     reducer: {
@@ -10,7 +11,7 @@ const store = configureStore({
         filter: filterReducer,
         notification: notificationReducer,
     },
-    middleware: [logger],
+    middleware: [thunk, logger],
 })
 
 export default store
