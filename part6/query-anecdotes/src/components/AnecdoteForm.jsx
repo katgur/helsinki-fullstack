@@ -8,9 +8,17 @@ const AnecdoteForm = () => {
   const queryClient = useQueryClient()
 
   const createAnecdoteMutation = useMutation(createAnecdote, {
+    onMutate: data => {
+      if (data.length < 5) {
+        throw new Error('too short anecdote, must have length 5 or more')
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries('anecdotes')
       notificationDispatch({ type: 'SET', payload: 'you created new anecdote' })
+    },
+    onError: error => {
+      notificationDispatch({ type: 'SET', payload: error.message })
     }
   })
 
