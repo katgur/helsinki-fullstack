@@ -26,19 +26,53 @@ export const initializeBlogs = () => {
 }
 
 export const createBlog = blog => {
-    return async dispatch => {
+    return dispatch => {
         blogService
             .add(blog)
             .then(() => {
-                blogService.getAll()
-                    .then(blogs => {
-                        dispatch(set(blogs))
-                        dispatch(setSuccess(`blog "${blog.title}" added`))
-                    })
+                dispatch(initializeBlogs())
+                dispatch(setSuccess(`blog "${blog.title}" added`))
             })
             .catch((error) => {
                 dispatch(setError("error while creating blog" + (error.response ? `: ${error.response.data.error}` : "")))
             })
+    }
+}
+
+export const likeBlog = blog => {
+    return dispatch => {
+        blogService
+            .update(blog.id, { ...blog, likes: blog.likes + 1, user: blog.user.id })
+            .then(newBlog => {
+                dispatch(initializeBlogs())
+                dispatch(setSuccess(`blog "${newBlog.title}" liked`))
+            })
+            .catch((error) => {
+                dispatch(setError("error while liking blog" + (error.response ? `: ${error.response.data.error}` : "")))
+            })
+    }
+}
+
+export const deleteBlog = blog => {
+    return dispatch => {
+        blogService
+            .remove(blog.id)
+            .then(() => {
+                dispatch(initializeBlogs())
+                dispatch(setSuccess(`blog "${blog.title}" deleted`))
+            })
+            .catch((error) => {
+                dispatch(setError("error while removing blog" + (error.response ? `: ${error.response.data.error}` : "")))
+            })
+    }
+}
+
+export const sortBlogs = blogs => {
+    return dispatch => {
+        const sortedBlogs = [...blogs].sort(
+            (blog1, blog2) => blog2.likes - blog1.likes
+        )
+        dispatch(set(sortedBlogs))
     }
 }
 

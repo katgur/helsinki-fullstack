@@ -7,7 +7,7 @@ import Togglable from "./components/Togglable"
 import { useDispatch, useSelector } from "react-redux"
 import { setError, setSuccess } from "./reducers/notificationReducer"
 import Notification from "./components/Notification"
-import { initializeBlogs, createBlog, getBlogs } from "./reducers/blogReducer"
+import { initializeBlogs, createBlog, getBlogs, likeBlog, deleteBlog, sortBlogs } from "./reducers/blogReducer"
 import blogService from './services/blogs'
 
 const USER_KEY = "loggedBlogappUser"
@@ -52,50 +52,16 @@ const App = () => {
     }
 
     const handleLikeClick = (blog) => {
-        const updatedBlog = {
-            ...blog,
-            likes: blog.likes + 1,
-            user: blog.user.id
-        }
-        delete updatedBlog.id
-        blogService
-            .update(blog.id, updatedBlog)
-            .then((data) => {
-                const newBlogs = blogs.map((blog) => {
-                    if (blog.id === data.id) {
-                        blog.likes = data.likes
-                    }
-                    return blog
-                })
-                // setBlogs(newBlogs)
-                dispatch(setSuccess(`blog "${data.title}" liked`))
-            })
-            .catch((error) => {
-                dispatch(setError("error while liking blog" + (error.response ? `: ${error.response.data.error}` : "")))
-            })
+        dispatch(likeBlog(blog))
     }
 
     const handleSortClick = () => {
-        const sortedBlogs = [...blogs].sort(
-            (blog1, blog2) => blog2.likes - blog1.likes
-        )
-        // setBlogs(sortedBlogs)
+        dispatch(sortBlogs(blogs))
     }
 
     const handleRemoveClick = (blog) => {
         if (window.confirm(`are you sure to remove blog "${blog.title}"?`)) {
-            blogService
-                .remove(blog.id)
-                .then(() => {
-                    dispatch(setSuccess(`blog "${blog.title}" deleted`))
-                    const filteredBlogs = blogs.filter(
-                        (blog1) => blog1.id !== blog.id
-                    )
-                    setBlogs(filteredBlogs)
-                })
-                .catch((error) => {
-                    dispatch(setError("error while removing blog" + (error.response ? `: ${error.response.data.error}` : "")))
-                })
+            dispatch(deleteBlog(blog))
         }
     }
 
@@ -122,11 +88,11 @@ const App = () => {
                         return (
                             <Blog
                                 key={blog.id}
-                                blog={{...blog, isOwn: blog.user.username === user.username}}
-                    onLikeClick={handleLikeClick}
-                    onRemoveClick={handleRemoveClick}
+                                blog={{ ...blog, isOwn: blog.user.username === user.username }}
+                                onLikeClick={handleLikeClick}
+                                onRemoveClick={handleRemoveClick}
                             />
-                    )
+                        )
                     })}
                 </>
             )}
