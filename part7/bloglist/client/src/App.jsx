@@ -1,18 +1,19 @@
 import { useState, useEffect, useRef } from "react"
 import Blog from "./components/Blog"
-import blogService from "./services/blogs"
 import authService from "./services/auth"
 import LoginForm from "./components/LoginForm"
 import BlogForm from "./components/BlogForm"
 import Togglable from "./components/Togglable"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setError, setSuccess } from "./reducers/notificationReducer"
 import Notification from "./components/Notification"
+import { initializeBlogs, createBlog, getBlogs } from "./reducers/blogReducer"
+import blogService from './services/blogs'
 
 const USER_KEY = "loggedBlogappUser"
 
 const App = () => {
-    const [blogs, setBlogs] = useState(null)
+    const blogs = useSelector(getBlogs)
     const [user, setUser] = useState(null)
     const dispatch = useDispatch()
     const blogFormRef = useRef()
@@ -20,7 +21,7 @@ const App = () => {
     useEffect(() => {
         if (user) {
             blogService.setToken(user.token)
-            blogService.getAll().then((blogs) => setBlogs(blogs))
+            dispatch(initializeBlogs())
         }
         if (!user) {
             setUser(JSON.parse(window.localStorage.getItem(USER_KEY)))
@@ -43,22 +44,11 @@ const App = () => {
     const handleLogout = () => {
         window.localStorage.removeItem(USER_KEY)
         setUser(null)
-        setBlogs(null)
     }
 
     const handleBlogCreate = (blog) => {
         blogFormRef.current.toggleVisibility()
-        blogService
-            .add(blog)
-            .then((data) => {
-                dispatch(setSuccess(`blog "${data.title}" added`))
-                blogService.getAll().then((data) => {
-                    setBlogs(data)
-                })
-            })
-            .catch((error) => {
-                dispatch(setError("error while logging in" + (error.response ? `: ${error.response.data.error}` : "")))
-            })
+        dispatch(createBlog(blog))
     }
 
     const handleLikeClick = (blog) => {
@@ -77,11 +67,11 @@ const App = () => {
                     }
                     return blog
                 })
-                setBlogs(newBlogs)
+                // setBlogs(newBlogs)
                 dispatch(setSuccess(`blog "${data.title}" liked`))
             })
             .catch((error) => {
-                dispatch(setError("error while logging in" + (error.response ? `: ${error.response.data.error}` : "")))
+                dispatch(setError("error while liking blog" + (error.response ? `: ${error.response.data.error}` : "")))
             })
     }
 
@@ -89,7 +79,7 @@ const App = () => {
         const sortedBlogs = [...blogs].sort(
             (blog1, blog2) => blog2.likes - blog1.likes
         )
-        setBlogs(sortedBlogs)
+        // setBlogs(sortedBlogs)
     }
 
     const handleRemoveClick = (blog) => {
@@ -104,7 +94,7 @@ const App = () => {
                     setBlogs(filteredBlogs)
                 })
                 .catch((error) => {
-                    dispatch(setError("error while logging in" + (error.response ? `: ${error.response.data.error}` : "")))
+                    dispatch(setError("error while removing blog" + (error.response ? `: ${error.response.data.error}` : "")))
                 })
         }
     }
@@ -125,19 +115,18 @@ const App = () => {
                     </Togglable>
                 </>
             )}
-            {blogs && (
+            {user && blogs && (
                 <>
                     <button onClick={handleSortClick}>sort</button>
                     {blogs.map((blog) => {
-                        blog.isOwn = blog.user.username === user.username
                         return (
                             <Blog
                                 key={blog.id}
-                                blog={blog}
-                                onLikeClick={handleLikeClick}
-                                onRemoveClick={handleRemoveClick}
+                                blog={{...blog, isOwn: blog.user.username === user.username}}
+                    onLikeClick={handleLikeClick}
+                    onRemoveClick={handleRemoveClick}
                             />
-                        )
+                    )
                     })}
                 </>
             )}
