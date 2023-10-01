@@ -1,20 +1,17 @@
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import Blog from "./components/Blog"
-import authService from "./services/auth"
 import LoginForm from "./components/LoginForm"
 import BlogForm from "./components/BlogForm"
 import Togglable from "./components/Togglable"
-import { useDispatch, useSelector } from "react-redux"
-import { setError, setSuccess } from "./reducers/notificationReducer"
 import Notification from "./components/Notification"
+import { useDispatch, useSelector } from "react-redux"
 import { initializeBlogs, createBlog, getBlogs, likeBlog, deleteBlog, sortBlogs } from "./reducers/blogReducer"
 import blogService from './services/blogs'
-
-const USER_KEY = "loggedBlogappUser"
+import { getUser, login, logout } from "./reducers/authReducer"
 
 const App = () => {
     const blogs = useSelector(getBlogs)
-    const [user, setUser] = useState(null)
+    const user = useSelector(getUser)
     const dispatch = useDispatch()
     const blogFormRef = useRef()
 
@@ -23,27 +20,14 @@ const App = () => {
             blogService.setToken(user.token)
             dispatch(initializeBlogs())
         }
-        if (!user) {
-            setUser(JSON.parse(window.localStorage.getItem(USER_KEY)))
-        }
     }, [user])
 
     const handleLogin = (username, password) => {
-        authService
-            .login(username, password)
-            .then((data) => {
-                setUser(data)
-                window.localStorage.setItem(USER_KEY, JSON.stringify(data))
-                dispatch(setSuccess("you have successfully logged in"))
-            })
-            .catch((error) => {
-                dispatch(setError("error while logging in" + (error.response ? `: ${error.response.data.error}` : "")))
-            })
+        dispatch(login(username, password))
     }
 
     const handleLogout = () => {
-        window.localStorage.removeItem(USER_KEY)
-        setUser(null)
+        dispatch(logout())
     }
 
     const handleBlogCreate = (blog) => {
