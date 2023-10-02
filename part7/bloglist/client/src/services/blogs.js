@@ -7,7 +7,7 @@ const setToken = (newToken) => {
     token = `Bearer ${newToken}`
 }
 
-const getAll = () => {
+const getAll = async () => {
     const config = {
         headers: { Authorization: token }
     }
@@ -15,7 +15,7 @@ const getAll = () => {
     return request.then((response) => response.data)
 }
 
-const add = (data) => {
+const add = async (data) => {
     const config = {
         headers: { Authorization: token }
     }
@@ -23,7 +23,7 @@ const add = (data) => {
     return request.then((response) => response.data)
 }
 
-const update = (id, data) => {
+const update = async (id, data) => {
     const config = {
         headers: { Authorization: token }
     }
@@ -31,7 +31,7 @@ const update = (id, data) => {
     return request.then((response) => response.data)
 }
 
-const remove = (id) => {
+const remove = async (id) => {
     const config = {
         headers: { Authorization: token }
     }
