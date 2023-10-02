@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom"
 import { getUser, logout } from "../reducers/authReducer"
 import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 function Navigation() {
     const user = useSelector(getUser)
+    const dispatch = useDispatch()
 
     const handleLogout = () => {
         dispatch(logout())
+    }
+
+    if (!user) {
+        return null
     }
 
     return (
