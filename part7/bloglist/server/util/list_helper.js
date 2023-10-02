@@ -51,10 +51,21 @@ const mostLikes = (blogs) => {
     }
 }
 
+const usersByCount = (users) => {
+    function userToBlogs(entry) {
+        return {
+            user: { name: entry.name, username: entry.username },
+            blogCount: entry.blogs.length
+        }
+    }
+    return lodash.map(users, userToBlogs)
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
     mostBlogs,
-    mostLikes
+    mostLikes,
+    usersByCount
 }

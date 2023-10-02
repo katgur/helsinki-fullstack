@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { initializeBlogs, createBlog, getBlogs, likeBlog, deleteBlog, sortBlogs } from "./reducers/blogReducer"
 import blogService from './services/blogs'
 import { getUser, login, logout } from "./reducers/authReducer"
+import Users from "./components/Users"
 
 const App = () => {
     const blogs = useSelector(getBlogs)
@@ -54,32 +55,16 @@ const App = () => {
             {user && <h2>blogs</h2>}
             <Notification />
             {!user && <LoginForm handleLogin={handleLogin} />}
-            {user && (
+            {
+                user &&
                 <>
                     <p>
-                        {user.name} logged in{" "}
+                        {user.name} logged in
                         <button onClick={handleLogout}>logout</button>
                     </p>
-                    <Togglable buttonLabel="create" ref={blogFormRef}>
-                        <BlogForm handleBlogCreate={handleBlogCreate} />
-                    </Togglable>
+                    <Users />
                 </>
-            )}
-            {user && blogs && (
-                <>
-                    <button onClick={handleSortClick}>sort</button>
-                    {blogs.map((blog) => {
-                        return (
-                            <Blog
-                                key={blog.id}
-                                blog={{ ...blog, isOwn: blog.user.username === user.username }}
-                                onLikeClick={handleLikeClick}
-                                onRemoveClick={handleRemoveClick}
-                            />
-                        )
-                    })}
-                </>
-            )}
+            }
         </div>
     )
 }

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt")
 const usersRouter = require("express").Router()
 const User = require("../model/user")
+const { usersByCount } = require('../util/list_helper')
 
 usersRouter.post("/", async (request, response) => {
     const { username, name, password } = request.body
@@ -36,6 +37,16 @@ usersRouter.get("/", async (request, response) => {
         likes: 1
     })
     response.json(result)
+})
+
+usersRouter.get("/by_count", async (request, response) => {
+    const result = await User.find({}).populate("blogs", {
+        title: 1,
+        author: 1,
+        url: 1,
+        likes: 1
+    })
+    response.json(usersByCount(result))
 })
 
 module.exports = usersRouter
