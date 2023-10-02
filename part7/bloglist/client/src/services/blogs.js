@@ -39,4 +39,12 @@ const remove = async (id) => {
     return request.then((response) => response.data)
 }
 
-export default { getAll, add, setToken, update, remove }
+const getById = async (id) => {
+    const config = {
+        headers: { Authorization: token }
+    }
+    const request = axios.get(`${baseUrl}/${id}`, config)
+    return request.then((response) => response.data)
+}
+
+export default { getAll, add, setToken, update, remove, getById }

@@ -4,24 +4,34 @@ import { setError, setSuccess } from "./notificationReducer"
 
 const blogSlice = createSlice({
     name: 'blog',
-    initialState: [],
+    initialState: {
+        all: [],
+        byId: null,
+    },
     reducers: {
         set: (state, action) => {
-            const newState = action.payload
-            newState.sort((a, b) => b.votes - a.votes)
-            return newState
+            return { ...state, all: action.payload }
+        },
+        setById: (state, action) => {
+            return { ...state, byId: action.payload }
         }
     }
 })
 
-const { set } = blogSlice.actions
+const { set, setById } = blogSlice.actions
 
-export const getBlogs = (state) => state.blog
+export const selectBlogs = state => state.blog.all
+export const selectBlogById = state => state.blog.byId
 
 export const initializeBlogs = () => {
     return async dispatch => {
-        const blogs = await blogService.getAll()
-        dispatch(set(blogs))
+        blogService.getAll()
+            .then(blogs => {
+                dispatch(set(blogs))
+            })
+            .catch(error => {
+                dispatch(setError("error while fetching blogs" + (error.response ? `: ${error.response.data.error}` : "")))
+            })
     }
 }
 
@@ -67,12 +77,16 @@ export const deleteBlog = blog => {
     }
 }
 
-export const sortBlogs = blogs => {
+export const getBlogById = id => {
     return dispatch => {
-        const sortedBlogs = [...blogs].sort(
-            (blog1, blog2) => blog2.likes - blog1.likes
-        )
-        dispatch(set(sortedBlogs))
+        blogService
+            .getById(id)
+            .then(blog => {
+                dispatch(setById(blog))
+            })
+            .catch((error) => {
+                dispatch(setError("error while fetching blog" + (error.response ? `: ${error.response.data.error}` : "")))
+            })
     }
 }
 

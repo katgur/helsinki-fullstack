@@ -1,7 +1,7 @@
-import { useState, forwardRef, useImperativeHandle } from "react"
+import { useState, Children, isValidElement, cloneElement } from "react"
 import PropTypes from "prop-types"
 
-const Togglable = forwardRef((props, refs) => {
+function Togglable({ children, buttonLabel }) {
     const [visible, setVisible] = useState(false)
 
     const hideWhenVisible = { display: visible ? "none" : "" }
@@ -11,24 +11,24 @@ const Togglable = forwardRef((props, refs) => {
         setVisible(!visible)
     }
 
-    useImperativeHandle(refs, () => {
-        return {
-            toggleVisibility
+    const childrenWithProps = Children.map(children, child => {
+        if (isValidElement(child)) {
+            return cloneElement(child, { toggleVisibility });
         }
     })
 
     return (
         <div>
             <div style={hideWhenVisible}>
-                <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+                <button onClick={toggleVisibility}>{buttonLabel}</button>
             </div>
             <div style={showWhenVisible}>
-                {props.children}
+                {childrenWithProps}
                 <button onClick={toggleVisibility}>cancel</button>
             </div>
         </div>
     )
-})
+}
 
 Togglable.displayName = "Togglable"
 Togglable.propTypes = {

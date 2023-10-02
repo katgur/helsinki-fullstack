@@ -1,38 +1,34 @@
-import { useState } from "react"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useParams } from "react-router"
+import { selectBlogById, getBlogById } from '../reducers/blogReducer'
+import { likeBlog } from "../reducers/blogReducer"
 
-const Blog = ({ blog, onLikeClick, onRemoveClick }) => {
-    const [isShown, setIsShown] = useState(false)
-    const blogStyle = {
-        paddingTop: 10,
-        paddingLeft: 2,
-        borderBottom: "solid 1px"
+function Blog() {
+    const dispatch = useDispatch()
+    const params = useParams()
+    const blog = useSelector(selectBlogById)
+
+    useEffect(() => {
+        dispatch(getBlogById(params.id))
+    }, [])
+
+    const onLikeClick = (blog) => {
+        dispatch(likeBlog(blog))
+        dispatch(getBlogById(params.id))
     }
 
-    return (
-        <div className="blog" style={blogStyle}>
+    return (blog &&
+        <div>
+            <h1>{blog.title} {blog.author}</h1>
             <p>
-                {blog.title} {blog.author}
-                <button onClick={() => setIsShown(!isShown)}>
-                    {isShown ? "hide" : "show"}
-                </button>
+                <a href={blog.url}>{blog.url}</a>
             </p>
-            {isShown && (
-                <div>
-                    <p>
-                        <a href={blog.url}>{blog.url}</a>
-                    </p>
-                    <p>
-                        likes {blog.likes}{" "}
-                        <button onClick={() => onLikeClick(blog)}>like</button>
-                    </p>
-                    <p>{blog.user.name}</p>
-                    {blog.isOwn && (
-                        <button onClick={() => onRemoveClick(blog)}>
-                            remove
-                        </button>
-                    )}
-                </div>
-            )}
+            <p>
+                {blog.likes} likes
+                <button onClick={() => onLikeClick(blog)}>like</button>
+            </p>
+            <p>added by {blog.user.name}</p>
         </div>
     )
 }
