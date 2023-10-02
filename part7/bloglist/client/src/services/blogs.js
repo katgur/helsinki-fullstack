@@ -47,4 +47,12 @@ const getById = async (id) => {
     return request.then((response) => response.data)
 }
 
-export default { getAll, add, setToken, update, remove, getById }
+const comment = async (id, comment) => {
+    const config = {
+        headers: { Authorization: token }
+    }
+    const request = axios.post(`${baseUrl}/${id}/comments`, { comment }, config)
+    return request.then((response) => response.data)
+}
+
+export default { getAll, add, setToken, update, remove, getById, comment }

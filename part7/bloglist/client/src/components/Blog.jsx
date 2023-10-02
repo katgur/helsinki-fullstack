@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router"
 import { selectBlogById, getBlogById } from '../reducers/blogReducer'
 import { likeBlog } from "../reducers/blogReducer"
+import Comments from "./Comments"
 
 function Blog() {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ function Blog() {
                 <button onClick={() => onLikeClick(blog)}>like</button>
             </p>
             <p>added by {blog.user.name}</p>
+            <Comments comments={blog.comments} />
         </div>
     )
 }

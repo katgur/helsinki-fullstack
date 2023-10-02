@@ -54,7 +54,7 @@ export const likeBlog = blog => {
         blogService
             .update(blog.id, { ...blog, likes: blog.likes + 1, user: blog.user.id })
             .then(newBlog => {
-                dispatch(initializeBlogs())
+                dispatch(setById(newBlog))
                 dispatch(setSuccess(`blog "${newBlog.title}" liked`))
             })
             .catch((error) => {
@@ -81,6 +81,19 @@ export const getBlogById = id => {
     return dispatch => {
         blogService
             .getById(id)
+            .then(blog => {
+                dispatch(setById(blog))
+            })
+            .catch((error) => {
+                dispatch(setError("error while fetching blog" + (error.response ? `: ${error.response.data.error}` : "")))
+            })
+    }
+}
+
+export const commentBlog = (id, comment) => {
+    return dispatch => {
+        blogService
+            .comment(id, comment)
             .then(blog => {
                 dispatch(setById(blog))
             })
