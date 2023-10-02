@@ -9,6 +9,8 @@ import { initializeBlogs, createBlog, getBlogs, likeBlog, deleteBlog, sortBlogs 
 import blogService from './services/blogs'
 import { getUser, login, logout } from "./reducers/authReducer"
 import Users from "./components/Users"
+import User from "./components/User"
+import { Route, Routes } from "react-router"
 
 const App = () => {
     const blogs = useSelector(getBlogs)
@@ -51,7 +53,7 @@ const App = () => {
     }
 
     return (
-        <div>
+        <>
             {user && <h2>blogs</h2>}
             <Notification />
             {!user && <LoginForm handleLogin={handleLogin} />}
@@ -62,10 +64,13 @@ const App = () => {
                         {user.name} logged in
                         <button onClick={handleLogout}>logout</button>
                     </p>
-                    <Users />
+                    <Routes>
+                        <Route path='/users' element={<Users />} />
+                        <Route path='/users/:id' element={<User />} />
+                    </Routes>
                 </>
             }
-        </div>
+        </>
     )
 }
 

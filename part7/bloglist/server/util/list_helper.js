@@ -54,7 +54,7 @@ const mostLikes = (blogs) => {
 const usersByCount = (users) => {
     function userToBlogs(entry) {
         return {
-            user: { name: entry.name, username: entry.username },
+            user: { name: entry.name, username: entry.username, id: entry.id },
             blogCount: entry.blogs.length
         }
     }
