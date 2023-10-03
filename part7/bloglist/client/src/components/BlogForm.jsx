@@ -24,7 +24,7 @@ function BlogForm({ toggleVisibility }) {
 
     return (
         <>
-            <h2 style={{marginTop: "5%"}}>create new blog</h2>
+            <h2>create new blog</h2>
             <Form onSubmit={onSubmit}>
                 <Form.Group>
                     <Stack>
