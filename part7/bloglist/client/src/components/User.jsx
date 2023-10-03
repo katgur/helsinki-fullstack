@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { getUserById, selectUserById } from "../reducers/userReducer"
 import { useEffect } from "react"
 import { useParams } from 'react-router'
+import { ListGroup } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 function User() {
     const user = useSelector(selectUserById)
@@ -16,13 +18,13 @@ function User() {
         <>
             <h1>{user.name}</h1>
             <h2>added blogs</h2>
-            <ul>
+            <ListGroup>
                 {
                     user.blogs.map(blog => {
-                        return <li key={blog.title}>{blog.title}</li>
+                        return <ListGroup.Item as='li' key={blog.title}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></ListGroup.Item>
                     })
                 }
-            </ul>
+            </ListGroup>
         </>
     )
 }

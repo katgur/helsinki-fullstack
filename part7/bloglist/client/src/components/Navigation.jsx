@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
 import { getUser, logout } from "../reducers/authReducer"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap'
 
 function Navigation() {
     const user = useSelector(getUser)
@@ -16,16 +16,21 @@ function Navigation() {
     }
 
     return (
-        <menu>
-            <ul>
-                <li><Link to='/users'>users</Link></li>
-                <li><Link to='/'>blogs</Link></li>
-            </ul>
-            <p>
-                {user.name} logged in
-                <button onClick={handleLogout}>logout</button>
-            </p>
-        </menu>
+        <Navbar expand="lg" className="bg-body-tertiary">
+            <Container>
+                <Navbar.Brand>Blog app</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="/users">users</Nav.Link>
+                        <Nav.Link href='/'>blogs</Nav.Link>
+                        <NavDropdown title={`${user.name} logged in`} id="basic-nav-dropdown">
+                            <NavDropdown.Item onClick={handleLogout}>Log out</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     )
 }
 
