@@ -11,6 +11,7 @@ import Notification from "./components/Notification"
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import Navigation from "./components/Navigation"
+import { useDispatch } from "react-redux"
 
 const MainPage = () => {
     return (
@@ -25,7 +26,8 @@ const MainPage = () => {
 
 const App = () => {
     const user = useSelector(getUser)
-
+    const dispatch = useDispatch()
+    
     if (user) {
         blogService.setToken(user.token)
     }
@@ -35,9 +37,8 @@ const App = () => {
     }
 
     return (
-        <>
+        <div className="container">
             <Navigation />
-            {user && <h2>blog app</h2>}
             <Notification />
             {!user && <LoginForm handleLogin={handleLogin} />}
             {
@@ -49,7 +50,7 @@ const App = () => {
                     <Route path='/blogs/:id' element={<Blog />} />
                 </Routes>
             }
-        </>
+        </div>
     )
 }
 

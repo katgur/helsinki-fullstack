@@ -1,24 +1,14 @@
 import { useSelector } from "react-redux"
-import { getNotification, MESSAGE_TYPE_ERROR } from "../reducers/notificationReducer"
+import { getNotification } from "../reducers/notificationReducer"
+import { Alert } from "react-bootstrap"
 
 function Notification() {
     const notification = useSelector(getNotification)
 
-    return (
-        <>
-            {notification && (
-                <p
-                    style={{
-                        color:
-                            notification.type === MESSAGE_TYPE_ERROR
-                                ? "red"
-                                : "green"
-                    }}
-                >
-                    {notification.content}
-                </p>
-            )}
-        </>
+    return (notification &&
+        <Alert style={{marginTop: "5%"}} variant={notification.type}>
+            {notification.content}
+        </Alert>
     )
 }
 

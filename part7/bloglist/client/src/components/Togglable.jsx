@@ -1,5 +1,6 @@
 import { useState, Children, isValidElement, cloneElement } from "react"
 import PropTypes from "prop-types"
+import { Button, Stack } from "react-bootstrap"
 
 function Togglable({ children, buttonLabel }) {
     const [visible, setVisible] = useState(false)
@@ -18,13 +19,15 @@ function Togglable({ children, buttonLabel }) {
     })
 
     return (
-        <div>
+        <div style={{ marginTop: "5%" }}>
             <div style={hideWhenVisible}>
-                <button onClick={toggleVisibility}>{buttonLabel}</button>
+                <Button variant="primary" onClick={toggleVisibility}>{buttonLabel}</Button>
             </div>
             <div style={showWhenVisible}>
-                {childrenWithProps}
-                <button onClick={toggleVisibility}>cancel</button>
+                <Stack gap={1}>
+                    {childrenWithProps}
+                    <Button variant="outline-primary" onClick={toggleVisibility}>Cancel</Button>
+                </Stack>
             </div>
         </div>
     )

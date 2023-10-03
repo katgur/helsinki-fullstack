@@ -4,6 +4,7 @@ import { useParams } from "react-router"
 import { selectBlogById, getBlogById } from '../reducers/blogReducer'
 import { likeBlog } from "../reducers/blogReducer"
 import Comments from "./Comments"
+import { Button, Card } from "react-bootstrap"
 
 function Blog() {
     const dispatch = useDispatch()
@@ -20,18 +21,20 @@ function Blog() {
     }
 
     return (blog &&
-        <div>
-            <h1>{blog.title} {blog.author}</h1>
-            <p>
-                <a href={blog.url}>{blog.url}</a>
-            </p>
-            <p>
-                {blog.likes} likes
-                <button onClick={() => onLikeClick(blog)}>like</button>
-            </p>
-            <p>added by {blog.user.name}</p>
+        <>
+            <Card style={{ marginTop: "5%", padding: "24px" }}>
+                <h1>{blog.title} {blog.author}</h1>
+                <p>
+                    <a href={blog.url}>{blog.url}</a>
+                </p>
+                <p>
+                    {blog.likes} likes
+                    <Button style={{ marginLeft: "5%" }} variant="outline-dark" onClick={() => onLikeClick(blog)}>like</Button>
+                </p>
+                <p>added by {blog.user.name}</p>
+            </Card>
             <Comments comments={blog.comments} />
-        </div>
+        </>
     )
 }
 

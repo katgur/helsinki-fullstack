@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUsersByCount, selectUsersByCount } from '../reducers/userReducer'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 function Users() {
     const usersByCount = useSelector(selectUsersByCount)
@@ -14,14 +15,12 @@ function Users() {
     return (
         <>
             <h2>Users</h2>
-            <table>
-                <thead>
+            <Table striped>
+                <tbody>
                     <tr>
                         <td></td>
                         <th>blogs created</th>
                     </tr>
-                </thead>
-                <tbody>
                     {
                         usersByCount.map(entry => {
                             console.log(entry)
@@ -34,7 +33,7 @@ function Users() {
                         })
                     }
                 </tbody>
-            </table>
+            </Table>
         </>
     )
 }
