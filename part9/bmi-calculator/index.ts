@@ -15,7 +15,7 @@ app.get('/bmi', (req, res) => {
     }
     const result = calculateBmi(height, weight);
     return res.json({ weight, height, bmi: result });
-})
+});
 
 const PORT = 3002;
 

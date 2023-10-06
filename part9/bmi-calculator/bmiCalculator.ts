@@ -20,7 +20,7 @@ export const calculateBmi = (height: number, weight: number) => {
     } else {
         return 'Underweight (Severe thinness)';
     }
-}
+};
 
 try {
     const height = Number(process.argv[2]), weight = Number(process.argv[3]);
@@ -30,5 +30,6 @@ try {
     const result = calculateBmi(height, weight);
     console.log(result);
 } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     console.log(error.message);
 }

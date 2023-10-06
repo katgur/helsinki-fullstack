@@ -35,8 +35,8 @@ const calculateRating = (average: number, target: number): Rating => {
     return {
         value: ratingValue,
         description: ratingDescriptions[ratingValue - 1],
-    }
-}
+    };
+};
 
 const calculateExercises = (hours: Array<number>, target: number): Result => {
     if (hours.length === 0) {
@@ -53,8 +53,8 @@ const calculateExercises = (hours: Array<number>, target: number): Result => {
         success: target <= average,
         rating: rating.value,
         ratingDescription: rating.description,
-    }
-}
+    };
+};
 
 try {
     const target = Number(process.argv[2]);
@@ -64,5 +64,6 @@ try {
     const result = calculateExercises(process.argv.map(arg => Number(arg)).slice(3), target);
     console.log(result);
 } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     console.log(error.message);
 }
