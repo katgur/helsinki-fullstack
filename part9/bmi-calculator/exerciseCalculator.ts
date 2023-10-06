@@ -20,6 +20,9 @@ const ratingDescriptions = [
 ];
 
 const calculateRating = (average: number, target: number): Rating => {
+    if (target === 0) {
+        throw new RangeError('target value should be more than zero');
+    }
     const completed = average / (target * 1.5);
     let ratingValue;
     if (completed >= 2 / 3) {
@@ -36,8 +39,11 @@ const calculateRating = (average: number, target: number): Rating => {
 }
 
 const calculateExercises = (hours: Array<number>, target: number): Result => {
+    if (hours.length === 0) {
+        throw new RangeError('daily hours length should not equal to zero');
+    }
     const totalHours = hours.reduce((acc, hour) => acc + hour);
-    const average = totalHours / hours.length
+    const average = totalHours / hours.length;
     const rating = calculateRating(average, target);
     return {
         periodLength: hours.length,
@@ -50,4 +56,13 @@ const calculateExercises = (hours: Array<number>, target: number): Result => {
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+    const target = Number(process.argv[2]);
+    if (isNaN(target)) {
+        throw new Error('target is missing or not a number');
+    }
+    const result = calculateExercises(process.argv.map(arg => Number(arg)).slice(3), target);
+    console.log(result);
+} catch (error) {
+    console.log(error.message);
+}
