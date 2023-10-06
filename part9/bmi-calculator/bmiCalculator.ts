@@ -1,4 +1,4 @@
-const calculateBmi = (height: number, weight: number) => {
+export const calculateBmi = (height: number, weight: number) => {
     if (height <= 0 || weight <= 0) {
         throw new RangeError('args should be more than 0');
     }
