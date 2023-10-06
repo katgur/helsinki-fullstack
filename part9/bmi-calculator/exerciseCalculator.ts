@@ -38,7 +38,7 @@ const calculateRating = (average: number, target: number): Rating => {
     };
 };
 
-const calculateExercises = (hours: Array<number>, target: number): Result => {
+export const calculateExercises = (hours: Array<number>, target: number): Result => {
     if (hours.length === 0) {
         throw new RangeError('daily hours length should not equal to zero');
     }
