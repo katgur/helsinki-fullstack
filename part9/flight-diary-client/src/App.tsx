@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Diary, NewDiary, Visibility, Weather } from './types';
 import { getAllDiaries, createDiary } from './services/diaryService';
+import { isAxiosError } from 'axios';
 
 interface NewDiaryFormProps {
   addDiary: (diary: Diary) => void,
+  setMessage: (message: string) => void,
 }
 
 function NewDiaryForm(props: NewDiaryFormProps) {
@@ -26,7 +28,15 @@ function NewDiaryForm(props: NewDiaryFormProps) {
           comment: '',
         });
       })
-      .catch(error => console.log(error.message));
+      .catch(error => {
+        if (isAxiosError(error)) {
+          if (error.response) {
+            props.setMessage(`${error.response.data}`);
+          }
+        } else {
+          console.error(error);
+        }
+      });
   }
 
   return (
@@ -64,17 +74,27 @@ function NewDiaryForm(props: NewDiaryFormProps) {
 
 function App() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
+  const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     getAllDiaries()
       .then(data => setDiaries(data))
-      .catch(error => console.log(error.message));
+      .catch(error => console.error(error));
   }, [])
+
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        setMessage('');
+      }, 5000)
+    }
+  }, [message])
 
   return (
     <>
       <h1>Diary</h1>
-      <NewDiaryForm addDiary={(diary: Diary) => setDiaries([...diaries, diary])} />
+      {message && <p style={{ color: 'red' }}>{message}</p>}
+      <NewDiaryForm addDiary={(diary: Diary) => setDiaries([...diaries, diary])} setMessage={setMessage} />
       {
         diaries.map(diary => {
           return (
