@@ -8,6 +8,36 @@ interface NewDiaryFormProps {
   setMessage: (message: string) => void,
 }
 
+interface WeatherRadioButtonProps {
+  value: Weather,
+  diary: NewDiary,
+  setDiary: React.Dispatch<React.SetStateAction<NewDiary>>,
+}
+
+function WeatherRadioButton({ value, diary, setDiary }: WeatherRadioButtonProps) {
+  return (
+    <label>
+      <input type='radio' name='weather' checked={diary.weather === value} onChange={() => setDiary({ ...diary, weather: value })} />
+      {value}
+    </label>
+  )
+}
+
+interface VisibilityRadioButtonProps {
+  value: Visibility,
+  diary: NewDiary,
+  setDiary: React.Dispatch<React.SetStateAction<NewDiary>>,
+}
+
+function VisibilityRadioButton({ value, diary, setDiary }: VisibilityRadioButtonProps) {
+  return (
+    <label>
+      <input type='radio' name='visibility' checked={diary.visibility === value} onChange={() => setDiary({ ...diary, visibility: value })} />
+      {value}
+    </label>
+  )
+}
+
 function NewDiaryForm(props: NewDiaryFormProps) {
   const [diary, setDiary] = useState<NewDiary>({
     date: '',
@@ -47,21 +77,17 @@ function NewDiaryForm(props: NewDiaryFormProps) {
           <input type='date' value={diary.date} onChange={(event) => setDiary({ ...diary, date: event.target.value })} />
         </div>
         <div>
-          <select value={diary.weather} onChange={(event) => setDiary({ ...diary, weather: event.target.value as Weather })}>
-            <option>{Weather.Cloudy}</option>
-            <option>{Weather.Rainy}</option>
-            <option>{Weather.Stormy}</option>
-            <option>{Weather.Sunny}</option>
-            <option>{Weather.Windy}</option>
-          </select>
+          <WeatherRadioButton value={Weather.Cloudy} diary={diary} setDiary={setDiary} />
+          <WeatherRadioButton value={Weather.Rainy} diary={diary} setDiary={setDiary} />
+          <WeatherRadioButton value={Weather.Stormy} diary={diary} setDiary={setDiary} />
+          <WeatherRadioButton value={Weather.Sunny} diary={diary} setDiary={setDiary} />
+          <WeatherRadioButton value={Weather.Windy} diary={diary} setDiary={setDiary} />
         </div>
         <div>
-          <select value={diary.visibility} onChange={(event) => setDiary({ ...diary, visibility: event.target.value as Visibility })}>
-            <option>{Visibility.Good}</option>
-            <option>{Visibility.Great}</option>
-            <option>{Visibility.Ok}</option>
-            <option>{Visibility.Poor}</option>
-          </select>
+          <VisibilityRadioButton value={Visibility.Good} diary={diary} setDiary={setDiary} />
+          <VisibilityRadioButton value={Visibility.Great} diary={diary} setDiary={setDiary} />
+          <VisibilityRadioButton value={Visibility.Ok} diary={diary} setDiary={setDiary} />
+          <VisibilityRadioButton value={Visibility.Poor} diary={diary} setDiary={setDiary} />
         </div>
         <div>
           <textarea value={diary.comment} onChange={(event) => setDiary({ ...diary, comment: event.target.value })} />
