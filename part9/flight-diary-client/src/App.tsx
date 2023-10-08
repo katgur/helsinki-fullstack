@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { Diary, NewDiary, Visibility, Weather } from './types';
 import { getAllDiaries, createDiary } from './services/diaryService';
 
-function NewDiaryForm({ addDiary }) {
+interface NewDiaryFormProps {
+  addDiary: (diary: Diary) => void,
+}
+
+function NewDiaryForm(props: NewDiaryFormProps) {
   const [diary, setDiary] = useState<NewDiary>({
     date: '',
     weather: Weather.Cloudy,
@@ -14,7 +18,7 @@ function NewDiaryForm({ addDiary }) {
     event.preventDefault();
     createDiary(diary)
       .then(data => {
-        addDiary(data);
+        props.addDiary(data);
         setDiary({
           date: '',
           weather: Weather.Cloudy,
