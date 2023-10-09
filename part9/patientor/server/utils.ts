@@ -40,6 +40,7 @@ export const toCreatePatient = (data: any): CreatePatient => {
         ssn: parseString('ssn', data.ssn),
         gender: parseGender(data.gender),
         occupation: parseString('occupation', data.occupation),
+        entries: [],
     };
 };
 

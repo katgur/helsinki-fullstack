@@ -5,7 +5,17 @@ import { toCreatePatient } from '../utils';
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    res.json(patientsService.getAllWithoutSsn());
+    res.json(patientsService.getAllNonSensitive());
+});
+
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+    const patient = patientsService.getById(id);
+    if (!patient) {
+        res.status(404).json({ error: 'patinent with id not found' });
+        return;
+    }
+    res.json(patient);
 });
 
 router.post('/', (req, res) => {
