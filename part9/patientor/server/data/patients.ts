@@ -8,7 +8,13 @@ const data: Patient[] = [
         "ssn": "090786-122X",
         "gender": Gender.Male,
         "occupation": "New york city cop",
-        entries: [],
+        "entries": [
+            {
+                date: "2019-08-05",
+                description: "Patient found himself ... ",
+                diagnoseCodes: ["Z57.1", "Z74.3", "M51.2"],
+            }
+        ],
     },
     {
         "id": "d2773598-f723-11e9-8f0b-362b9e155667",

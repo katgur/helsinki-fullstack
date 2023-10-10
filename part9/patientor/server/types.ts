@@ -4,8 +4,10 @@ export interface Diagnosis {
     latin?: string,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Entry {
+    date: string,
+    description: string,
+    diagnoseCodes: string[],
 }
 
 export interface Patient {
