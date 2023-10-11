@@ -20,22 +20,29 @@ export interface HospitalEntry extends BaseEntry {
 export interface OccupationHealthcareEntry extends BaseEntry {
     type: 'OccupationalHealthcare';
     sickLeave?: TimeInterval;
-    employerName: string | undefined;
+    employerName: string;
 }
 
 export interface HealthCheckEntry extends BaseEntry {
     type: 'HealthCheck';
-    healthCheckRating: number;
+    healthCheckRating: HealthCheckRating;
+}
+
+export enum HealthCheckRating {
+    "Healthy" = 0,
+    "LowRisk" = 1,
+    "HighRisk" = 2,
+    "CriticalRisk" = 3
 }
 
 export type Entry = HospitalEntry | OccupationHealthcareEntry | HealthCheckEntry;
 
-interface Discharge {
+export interface Discharge {
     date: string;
     criteria: string;
 }
 
-interface TimeInterval {
+export interface TimeInterval {
     startDate: string;
     endDate: string;
 }
@@ -61,3 +68,8 @@ export enum Gender {
     Female = 'female',
     Other = 'other',
 }
+
+type CreateHospitalEntry = Omit<HospitalEntry, "id">;
+type CreateOccupationHealthcareEntry = Omit<OccupationHealthcareEntry, "id">;
+type CreateHealthCheckEntry = Omit<HealthCheckEntry, "id">;
+export type CreateEntry = CreateHospitalEntry | CreateHealthCheckEntry | CreateOccupationHealthcareEntry;

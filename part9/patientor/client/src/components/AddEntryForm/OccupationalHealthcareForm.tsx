@@ -3,12 +3,12 @@ import useField from "../../hooks/useField";
 import { BaseEntryForm } from "./types";
 import { OccupationHealthcareEntryFormValues } from "../../types";
 
-function OccupationalHealthcareForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick }: BaseEntryForm) {
+function OccupationalHealthcareForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
     const startDate = useField({ label: 'Start date', type: 'date' });
     const endDate = useField({ label: 'End date', type: 'date' });
     const employerName = useField({ label: 'Employer name', type: 'text' });
 
-    const onSaveButtonClick = (event: { preventDefault: () => void; }) => {
+    const onSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const entry: OccupationHealthcareEntryFormValues = {
             date: date.value,
@@ -22,11 +22,11 @@ function OccupationalHealthcareForm({ date, specialist, description, diagnosesCo
             },
             employerName: employerName.value,
         };
-        console.log(entry);
+        onSaveButtonClick(entry);
     };
 
     return (
-        <form onSubmit={onSaveButtonClick} style={{width: "50%"}}>
+        <form onSubmit={onSubmit} style={{ width: "50%" }}>
             <Stack spacing={2}>
                 <TextField {...date} />
                 <TextField {...specialist} />

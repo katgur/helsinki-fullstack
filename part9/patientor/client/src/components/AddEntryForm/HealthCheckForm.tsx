@@ -3,10 +3,10 @@ import { BaseEntryForm } from "./types";
 import useField from "../../hooks/useField";
 import { HealthCheckEntryFormValues } from "../../types";
 
-function HealthCheckForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick }: BaseEntryForm) {
+function HealthCheckForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
     const healthCheckRating = useField({ label: 'Healthcheck rating', type: 'number' });
 
-    const onSaveButtonClick = (event: { preventDefault: () => void; }) => {
+    const onSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const entry: HealthCheckEntryFormValues = {
             date: date.value,
@@ -16,11 +16,11 @@ function HealthCheckForm({ date, specialist, description, diagnosesCodes, onCanc
             type: 'HealthCheck',
             healthCheckRating: Number(healthCheckRating.value),
         };
-        console.log(entry);
+        onSaveButtonClick(entry);
     };
 
     return (
-        <form onSubmit={onSaveButtonClick} style={{width: "50%"}}>
+        <form onSubmit={onSubmit} style={{width: "50%"}}>
             <Stack spacing={2}>
                 <TextField {...date} />
                 <TextField {...specialist} />

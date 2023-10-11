@@ -3,11 +3,11 @@ import useField from "../../hooks/useField";
 import { BaseEntryForm } from "./types";
 import { HospitalEntryFormValues } from "../../types";
 
-function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCancelButtonClick }: BaseEntryForm) {
-    const dischargeDate = useField({ label: 'Discharge date', type: 'text' });
+function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
+    const dischargeDate = useField({ label: 'Discharge date', type: 'date' });
     const dischargeCriteria = useField({ label: 'Discharge criteria', type: 'text' });
 
-    const onSaveButtonClick = (event: { preventDefault: () => void; }) => {
+    const onSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         const entry: HospitalEntryFormValues = {
             date: date.value,
@@ -20,11 +20,11 @@ function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCan
             },
             type: 'Hospital',
         };
-        console.log(entry);
+        onSaveButtonClick(entry);
     };
 
     return (
-        <form onSubmit={onSaveButtonClick} style={{width: "50%"}}>
+        <form onSubmit={onSubmit} style={{ width: "50%" }}>
             <Stack spacing={2}>
                 <TextField {...date} />
                 <TextField {...specialist} />

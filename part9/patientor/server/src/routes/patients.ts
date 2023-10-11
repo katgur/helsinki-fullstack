@@ -1,6 +1,6 @@
 import express from 'express';
 import patientsService from '../services/patientsService';
-import { toCreatePatient } from '../utils';
+import { toCreateEntry, toCreatePatient } from '../typeGuards';
 
 const router = express.Router();
 
@@ -40,6 +40,25 @@ router.get('/:id/entries', (req, res) => {
         return;
     }
     res.json(entries);
+});
+
+router.post('/:id/entries', (req, res) => {
+    try {
+        const id = req.params.id;
+        const createEntry = toCreateEntry(req.body);
+        const patient = patientsService.createEntry(id, createEntry);
+        if (!patient) {
+            res.status(404).json({ error: 'patinent with id not found' });
+            return;
+        }
+        res.json(patient);
+    } catch (error: unknown) {
+        let errorMessage = 'Something went wrong.';
+        if (error instanceof Error) {
+            errorMessage += ' Error: ' + error.message;
+        }
+        res.status(400).send(errorMessage);
+    }
 });
 
 export default router;

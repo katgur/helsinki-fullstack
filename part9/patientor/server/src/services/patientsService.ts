@@ -1,5 +1,5 @@
 import patients from '../data/patients';
-import { CreatePatient, Patient, NonSensitivePatient, NoEntriesPatient, Entry } from '../types';
+import { CreatePatient, Patient, NonSensitivePatient, NoEntriesPatient, Entry, CreateEntry } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getAllNonSensitive = (): NonSensitivePatient[] => {
@@ -17,7 +17,6 @@ const getById = (id: string): NoEntriesPatient | undefined => {
 };
 
 const create = (data: CreatePatient): Patient => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const patient: Patient = { id: uuid(), ...data };
     patients.push(patient);
     return patient;
@@ -31,9 +30,20 @@ const getEntries = (id: string): Entry[] | undefined => {
     return patient.entries;
 };
 
+const createEntry = (id: string, data: CreateEntry): Entry[] | undefined => {
+    const entry: Entry = { id: uuid(), ...data };
+    const patient = patients.find(patient => patient.id === id);
+    if (!patient) {
+        return;
+    }
+    patient.entries.push(entry);
+    return patient.entries;
+};
+
 export default {
     getAllNonSensitive,
     create,
     getById,
     getEntries,
+    createEntry,
 };

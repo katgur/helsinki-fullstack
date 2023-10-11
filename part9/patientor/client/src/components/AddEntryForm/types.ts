@@ -1,3 +1,5 @@
+import { CreateEntry } from "../../types";
+
 interface Field {
     type: string;
     label: string;
@@ -11,4 +13,5 @@ export interface BaseEntryForm {
     description: Field;
     diagnosesCodes: Field;
     onCancelButtonClick: () => void;
+    onSaveButtonClick: (entry: CreateEntry) => void;
 }
