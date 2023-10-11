@@ -51,7 +51,7 @@ const PatientPage = () => {
                     <Typography>
                         occupation: {patient.occupation}
                     </Typography>
-                    <EntryListing entries={patient.entries} />
+                    <EntryListing patientId={patient.id} />
                 </div>
             }
         </div>

@@ -32,4 +32,14 @@ router.post('/', (req, res) => {
     }
 });
 
+router.get('/:id/entries', (req, res) => {
+    const id = req.params.id;
+    const entries = patientsService.getEntries(id);
+    if (!entries) {
+        res.status(404).json({ error: 'patinent with id not found' });
+        return;
+    }
+    res.json(entries);
+});
+
 export default router;

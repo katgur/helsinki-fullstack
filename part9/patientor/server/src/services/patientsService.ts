@@ -1,5 +1,5 @@
 import patients from '../data/patients';
-import { CreatePatient, Patient, NonSensitivePatient } from '../types';
+import { CreatePatient, Patient, NonSensitivePatient, NoEntriesPatient, Entry } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getAllNonSensitive = (): NonSensitivePatient[] => {
@@ -12,7 +12,7 @@ const getAllNonSensitive = (): NonSensitivePatient[] => {
     }));
 };
 
-const getById = (id: string): Patient | undefined => {
+const getById = (id: string): NoEntriesPatient | undefined => {
     return patients.find(patient => patient.id === id);
 };
 
@@ -23,8 +23,17 @@ const create = (data: CreatePatient): Patient => {
     return patient;
 };
 
+const getEntries = (id: string): Entry[] | undefined => {
+    const patient = patients.find(patient => patient.id === id);
+    if (!patient) {
+        return;
+    }
+    return patient.entries;
+};
+
 export default {
     getAllNonSensitive,
     create,
     getById,
+    getEntries,
 };
