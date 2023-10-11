@@ -3,3 +3,9 @@ export const assertNever = (value: never): never => {
         `Unhandled discriminated union member: ${JSON.stringify(value)}`
     );
 };
+
+export const never = (): never => {
+    throw new Error(
+        `Unhandled discriminated union member`
+    );
+};
