@@ -27,7 +27,7 @@ function EntryListing({ patientId }: Props) {
         patientsService.getEntriesById(patientId)
             .then(data => setEntries(data))
             .catch(error => handleError(error));
-    }, []);
+    }, [handleError, patientId]);
 
     const onAddEntryClick = (type: string) => {
         setEntryForm({ isShown: true, type });

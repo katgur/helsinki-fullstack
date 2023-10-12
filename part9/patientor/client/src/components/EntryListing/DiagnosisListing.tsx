@@ -18,7 +18,7 @@ function DiagnosisListing({ diagnosisCodes }: Props) {
                 setDiagnoses(data);
             })
             .catch(error => handleError(error));
-    }, []);
+    }, [handleError]);
 
     return (
         <div>

@@ -26,7 +26,7 @@ const PatientPage = () => {
                 setPatient(data);
             })
             .catch(error => handleError(error));
-    }, []);
+    }, [handleError, params.id]);
 
     let icon;
     if (patient?.gender === Gender.Female) {

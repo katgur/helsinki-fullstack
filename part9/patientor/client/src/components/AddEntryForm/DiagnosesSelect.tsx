@@ -14,7 +14,7 @@ function DiagnosesSelect(props: SelectProps) {
         diagnosesService.getAll()
             .then(data => setDiagnoses(data))
             .catch(error => handleError(error));
-    }, []);
+    }, [handleError]);
 
     return (
         <Select multiple
