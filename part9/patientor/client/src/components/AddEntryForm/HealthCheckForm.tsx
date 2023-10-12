@@ -1,20 +1,24 @@
 import { Button, Stack, TextField } from "@mui/material";
 import { BaseEntryForm } from "./types";
-import useField from "../../hooks/useField";
-import { HealthCheckEntryFormValues } from "../../types";
+import { HealthCheckEntryFormValues, HealthCheckRating } from "../../types";
+import DiagnosesSelect from "./DiagnosesSelect";
+import HealthCheckRatingSelect from "./HealthRatingSelect";
+import useSelect from "../../hooks/useSelect";
 
 function HealthCheckForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
-    const healthCheckRating = useField({ label: 'Healthcheck rating', type: 'number' });
+    const healthCheckRating = useSelect();
 
     const onSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
+        console.log(Object.values(HealthCheckRating).slice(0, 4), healthCheckRating.value[0]);
+
         const entry: HealthCheckEntryFormValues = {
             date: date.value,
             specialist: specialist.value,
             description: specialist.value,
-            diagnosisCodes: diagnosesCodes.value.split(', '),
+            diagnosisCodes: diagnosesCodes.value,
             type: 'HealthCheck',
-            healthCheckRating: Number(healthCheckRating.value),
+            healthCheckRating: Object.values(HealthCheckRating).slice(0, 4).indexOf(healthCheckRating.value[0]),
         };
         onSaveButtonClick(entry);
     };
@@ -25,8 +29,8 @@ function HealthCheckForm({ date, specialist, description, diagnosesCodes, onCanc
                 <TextField {...date} />
                 <TextField {...specialist} />
                 <TextField {...description} />
-                <TextField {...diagnosesCodes} />
-                <TextField {...healthCheckRating} />
+                <DiagnosesSelect {...diagnosesCodes} />
+                <HealthCheckRatingSelect {...healthCheckRating} />
                 <Button onClick={onCancelButtonClick} variant="outlined">Cancel</Button>
                 <Button type="submit" variant="contained">Save</Button>
             </Stack>

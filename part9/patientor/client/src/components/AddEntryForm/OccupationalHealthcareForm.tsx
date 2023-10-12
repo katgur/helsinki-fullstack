@@ -2,6 +2,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import useField from "../../hooks/useField";
 import { BaseEntryForm } from "./types";
 import { OccupationHealthcareEntryFormValues } from "../../types";
+import DiagnosesSelect from "./DiagnosesSelect";
 
 function OccupationalHealthcareForm({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
     const startDate = useField({ label: 'Start date', type: 'date' });
@@ -14,7 +15,7 @@ function OccupationalHealthcareForm({ date, specialist, description, diagnosesCo
             date: date.value,
             specialist: specialist.value,
             description: specialist.value,
-            diagnosisCodes: diagnosesCodes.value.split(', '),
+            diagnosisCodes: diagnosesCodes.value.split(','),
             type: 'OccupationalHealthcare',
             sickLeave: {
                 startDate: startDate.value,
@@ -31,7 +32,7 @@ function OccupationalHealthcareForm({ date, specialist, description, diagnosesCo
                 <TextField {...date} />
                 <TextField {...specialist} />
                 <TextField {...description} />
-                <TextField {...diagnosesCodes} />
+                <DiagnosesSelect {...diagnosesCodes} />
                 <TextField {...startDate} />
                 <TextField {...endDate} />
                 <TextField {...employerName} />

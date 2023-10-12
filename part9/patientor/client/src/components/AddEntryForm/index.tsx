@@ -1,4 +1,5 @@
 import useField from "../../hooks/useField";
+import useSelect from "../../hooks/useSelect";
 import { CreateEntry } from "../../types";
 import { never } from "../../utils";
 import AddHospitalEntry from "./AddHospitalEntry";
@@ -15,7 +16,7 @@ function AddEntry({ type, onCancelButtonClick, onSaveButtonClick }: Props) {
     const date = useField({ label: 'Date', type: 'date' });
     const specialist = useField({ label: 'Specialist', type: 'text' });
     const description = useField({ label: 'Description', type: 'text' });
-    const diagnosesCodes = useField({ label: 'Diagnoses', type: 'text' });
+    const diagnosesCodes = useSelect({ label: 'Diagnoses' });
 
     const fields = { date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick };
 

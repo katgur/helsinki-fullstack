@@ -2,6 +2,7 @@ import { TextField, Stack, Button } from "@mui/material";
 import useField from "../../hooks/useField";
 import { BaseEntryForm } from "./types";
 import { HospitalEntryFormValues } from "../../types";
+import DiagnosesSelect from "./DiagnosesSelect";
 
 function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick }: BaseEntryForm) {
     const dischargeDate = useField({ label: 'Discharge date', type: 'date' });
@@ -13,7 +14,7 @@ function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCan
             date: date.value,
             specialist: specialist.value,
             description: specialist.value,
-            diagnosisCodes: diagnosesCodes.value.split(', '),
+            diagnosisCodes: diagnosesCodes.value,
             discharge: {
                 date: dischargeDate.value,
                 criteria: dischargeCriteria.value,
@@ -29,7 +30,7 @@ function AddHospitalEntry({ date, specialist, description, diagnosesCodes, onCan
                 <TextField {...date} />
                 <TextField {...specialist} />
                 <TextField {...description} />
-                <TextField {...diagnosesCodes} />
+                <DiagnosesSelect {...diagnosesCodes} />
                 <TextField {...dischargeDate} />
                 <TextField {...dischargeCriteria} />
                 <Button onClick={onCancelButtonClick} variant="outlined">Cancel</Button>
