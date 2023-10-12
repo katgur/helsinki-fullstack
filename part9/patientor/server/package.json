@@ -7,8 +7,7 @@
     "tsc": "tsc",
     "start": "node build/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint --ext .ts .",
-    "fix": "eslint --fix --ext .ts ."
+    "lint": "eslint --ext .ts ."
   },
   "keywords": [],
   "author": "",
