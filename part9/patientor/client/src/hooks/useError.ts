@@ -1,9 +1,17 @@
 import { isAxiosError } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function useError() {
     const [error, setError] = useState<string>();
 
+    useEffect(() => {
+        if (error) {
+            setTimeout(() => {
+                setError('');
+            }, 5000);
+        }
+    }, [error]);
+    
     const handleError = (error: unknown) => {
         if (isAxiosError(error)) {
             if (error?.response?.data && typeof error?.response?.data === "string") {

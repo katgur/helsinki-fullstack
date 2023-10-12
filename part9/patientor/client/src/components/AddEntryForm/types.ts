@@ -1,3 +1,4 @@
+import { SelectChangeEvent } from "@mui/material";
 import { CreateEntry } from "../../types";
 
 interface Field {
@@ -9,7 +10,7 @@ interface Field {
 
 export interface Select {
     value: string[];
-    onChange: (event: { target: { value: string[] }}) => void;
+    onChange: (event: SelectChangeEvent<string[]>) => void;
 }
 
 export interface BaseEntryForm {

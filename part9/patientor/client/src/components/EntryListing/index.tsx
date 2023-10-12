@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Alert, Button, Stack, Typography } from "@mui/material";
 import EntryDetails from "./EntryDetails";
 import { useEffect, useState } from "react";
 import { CreateEntry, Entry } from "../../types";
@@ -20,7 +20,7 @@ interface Props {
 function EntryListing({ patientId }: Props) {
     const [entryForm, setEntryForm] = useState<AddEntryForm>({ isShown: false, type: 'Hospital' });
     const [entries, setEntries] = useState<Entry[]>();
-    const { handleError } = useError();
+    const { error, handleError } = useError();
     const params = useParams();
 
     useEffect(() => {
@@ -50,6 +50,7 @@ function EntryListing({ patientId }: Props) {
             <Typography variant="h5" style={{ marginTop: "0.5em" }}>
                 Entries
             </Typography>
+            {error && <Alert severity="error">{error}</Alert>}
             <Button onClick={() => onAddEntryClick('HealthCheck')}>Add Healthcheck Entry</Button>
             <Button onClick={() => onAddEntryClick('Hospital')}>Add Hospital Entry</Button>
             <Button onClick={() => onAddEntryClick('OccupationalHealthcare')}>Add Occupation Healtcare Entry</Button>

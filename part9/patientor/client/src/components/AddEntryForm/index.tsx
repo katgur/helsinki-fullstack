@@ -16,7 +16,7 @@ function AddEntry({ type, onCancelButtonClick, onSaveButtonClick }: Props) {
     const date = useField({ label: 'Date', type: 'date' });
     const specialist = useField({ label: 'Specialist', type: 'text' });
     const description = useField({ label: 'Description', type: 'text' });
-    const diagnosesCodes = useSelect({ label: 'Diagnoses' });
+    const diagnosesCodes = useSelect();
 
     const fields = { date, specialist, description, diagnosesCodes, onCancelButtonClick, onSaveButtonClick };
 
